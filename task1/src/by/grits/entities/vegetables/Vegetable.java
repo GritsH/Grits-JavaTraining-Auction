@@ -1,23 +1,20 @@
 package by.grits.entities.vegetables;
 
-public class Vegetable
-{
-    private int Weight;
-    private int Calories;
+public class Vegetable {
 
-    public Vegetable(int weight, int calories)
-    {
-        Weight = weight;
-        Calories = calories;
+    private final int weight;
+    private final int calories;
+
+    public Vegetable(int weight, int calories) {
+        this.weight = weight;
+        this.calories = calories;
     }
 
-    public int getWeight()
-    {
-        return Weight;
+    public int getWeight() {
+        return weight;
     }
 
-    public int getCalories()
-    {
-        return Calories;
+    public int getCalories() {
+        return calories;
     }
 }
