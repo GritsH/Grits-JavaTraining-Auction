@@ -3,25 +3,37 @@ package by.grits.io;
 import by.grits.controllers.AdminController;
 import by.grits.controllers.ItemController;
 import by.grits.controllers.UserController;
-import by.grits.entities.people.Admin;
+import by.grits.dao.ItemDao;
+import by.grits.dao.UserDao;
+import by.grits.entities.enums.RoleType;
+import by.grits.factory.DaoFactory;
+import by.grits.services.ItemService;
+import by.grits.services.ItemServiceImpl;
+import by.grits.services.UserService;
+import by.grits.services.UserServiceImpl;
+import by.grits.utils.Session;
 
-import java.util.Scanner;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class Menu {
-    public void startMenu(){
-        UserController userController = new UserController();
-        ItemController itemController = new ItemController();
-        AdminController adminController = new AdminController(userController, itemController);
-        Admin admin = new Admin(null, null, null, "admin", "admin");
-        boolean runApp = true;
-        while(runApp){
-            userController.userMenu();
-            if(userController.getCurrentUser().equals(admin)){
-                adminController.adminMenu();
-                userController.userMenu();
-            }
-            itemController.setCurrentUser(userController.getCurrentUser());
-            itemController.itemMenu();
-        }
+  public void startMenu() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    DaoFactory daoFactory = DaoFactory.getInstance();
+    UserDao userDao = daoFactory.getInMemoryUserDaoImpl();
+    UserService userService = new UserServiceImpl(userDao);
+    UserController userController = new UserController(userService);
+
+    ItemDao itemDao = daoFactory.getInMemoryItemDaoImpl();
+    ItemService itemService = new ItemServiceImpl(itemDao);
+    ItemController itemController = new ItemController(itemService);
+    AdminController adminController = new AdminController(itemDao, userDao);
+    while (true) {
+      userController.userMenu();
+      if (Session.getUser().getRole().equals(RoleType.ADMIN)) {
+        adminController.adminMenu();
+        userController.userMenu();
+      }
+      itemController.itemMenu();
     }
+  }
 }

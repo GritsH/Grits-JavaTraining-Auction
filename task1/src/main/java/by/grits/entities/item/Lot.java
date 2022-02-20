@@ -1,63 +1,50 @@
 package by.grits.entities.item;
 
-import by.grits.entities.people.CommonUser;
-
-import java.util.List;
-import java.util.Random;
-
 public class Lot {
-    private int lotCard;
-    private CommonUser host;
-    private CommonUser lotLeader;
-    private int startingPrice;
-    private int auctionStep;
-    private int currentPrice;
-    private List<Item> auctionItems;
+  private int id;
+  private String lotLeaderId;
+  private int startingPrice;
+  private int auctionStep;
+  private int currentPrice;
+  private int itemId;
 
-    public Lot(CommonUser host, CommonUser lotLeader, int startingPrice, int auctionStep, int currentPrice, List<Item> auctionItems) {
-        this.host = host;
-        this.lotLeader = lotLeader;
-        this.startingPrice = startingPrice;
-        this.auctionStep = auctionStep;
-        this.currentPrice = currentPrice;
-        this.auctionItems = auctionItems;
-        Random r = new Random();
-        lotCard = r.nextInt(10000) + 10000;
-    }
+  public Lot(int id, int startingPrice, int auctionStep, int itemId) {
+    this.id = id;
+    this.startingPrice = startingPrice;
+    this.auctionStep = auctionStep;
+    this.itemId = itemId;
+  }
 
-    public CommonUser getHost() {
-        return host;
-    }
+  public int getItemId() {
+    return itemId;
+  }
 
-    public CommonUser getLotLeader() {
-        return lotLeader;
-    }
+  public String getLotLeaderId() {
+    return lotLeaderId;
+  }
 
-    public void setLotLeader(CommonUser lotLeader) {
-        this.lotLeader = lotLeader;
-    }
+  public void setLotLeaderId(String lotLeaderId) {
 
-    public int getCurrentPrice() {
-        return currentPrice;
-    }
+    this.lotLeaderId = lotLeaderId;
+  }
 
-    public void setCurrentPrice(int currentPrice) {
-        this.currentPrice = currentPrice;
-    }
+  public int getCurrentPrice() {
+    return currentPrice;
+  }
 
-    public int getLotCard() {
-        return lotCard;
-    }
+  public void setCurrentPrice(int currentPrice) {
+    this.currentPrice = currentPrice;
+  }
 
-    public int getStartingPrice() {
-        return startingPrice;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public int getAuctionStep() {
-        return auctionStep;
-    }
+  public int getStartingPrice() {
+    return startingPrice;
+  }
 
-    public List<Item> getAuctionItems() {
-        return auctionItems;
-    }
+  public int getAuctionStep() {
+    return auctionStep;
+  }
 }

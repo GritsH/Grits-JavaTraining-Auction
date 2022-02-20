@@ -1,35 +1,31 @@
 package by.grits.entities.item;
 
-import by.grits.entities.people.CommonUser;
-
-import java.util.Map;
-
 public class Contract {
-    private static int contractId;
-    private String signingDate;
-    private Item contractSubject;
-    private Map<CommonUser, CommonUser> contractParties;
+  private String signingDate;
+  private Integer contractSubjectId;
+  private String ownerId;
+  private String buyerId;
 
-    public Contract(String signingDate, Item contractSubject, Map<CommonUser, CommonUser> contractParties) {
-        this.signingDate = signingDate;
-        this.contractSubject = contractSubject;
-        this.contractParties = contractParties;
-        contractId = 4578;
-    }
+  public Contract(String signingDate, int contractSubject, String ownerId, String buyerId) {
+    this.signingDate = signingDate;
+    this.contractSubjectId = contractSubject;
+    this.buyerId = buyerId;
+    this.ownerId = ownerId;
+  }
 
-    public static int getContractId() {
-        return contractId;
-    }
+  public String getSigningDate() {
+    return signingDate;
+  }
 
-    public String getSigningDate() {
-        return signingDate;
-    }
+  public Integer getContractSubject() {
+    return contractSubjectId;
+  }
 
-    public Item getContractSubject() {
-        return contractSubject;
-    }
+  public String getOwnerId() {
+    return ownerId;
+  }
 
-    public Map<CommonUser, CommonUser> getContractParties() {
-        return contractParties;
-    }
+  public String getBuyerId() {
+    return buyerId;
+  }
 }

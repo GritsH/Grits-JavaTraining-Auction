@@ -2,76 +2,46 @@ package by.grits.controllers;
 
 import by.grits.entities.enums.ItemType;
 import by.grits.entities.item.Item;
-import by.grits.entities.people.CommonUser;
-import by.grits.entities.people.User;
-import by.grits.services.ItemDao;
+import by.grits.services.ItemService;
+import by.grits.utils.Session;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ItemController {
     private Scanner scanner;
-    private static ItemDao itemDAO;
-    private List<Item> items;
-    private CommonUser currentUser;
+    private ItemService itemService;
+    private final Logger logger;
 
-    public ItemController() {
-        itemDAO = new ItemDao();
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
         scanner = new Scanner(System.in);
-        items = new ArrayList<>();
+        logger = LogManager.getLogger("ItemController.class");
     }
 
-    public ItemDao getItemDAO() {
-        return itemDAO;
-    }
-
-//    public CommonUser getCurrentUser() {
-//        return currentUser;
-//    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = (CommonUser) currentUser;
-    }
 
     public void addItem() {
-        String name = "";
-        String description = "";
-        ItemType itemT = null;
-
         scanner.nextLine();
 
-        System.out.println("Item name: ");
-        name = scanner.nextLine();
-        System.out.println("Item description: ");
-        description = scanner.nextLine();
-        System.out.println("Choose item type");
+        logger.info("Item name: ");
+        String name = scanner.nextLine();
+        logger.info("Item description: ");
+        String description = scanner.nextLine();
+        logger.info("Choose item type");
         boolean addItem = true;
         while (addItem) {
-            System.out.print("1 " + ItemType.FURNITURE.name() + '\n' +
-                    "2 " + ItemType.BOOK.name() + '\n' +
-                    "3 " + ItemType.DECOR.name() + '\n' +
-                    "4 " + ItemType.MUSICAL_INSTRUMENT.name() + '\n' +
-                    "5 " + ItemType.PAINTING.name() + '\n' +
-                    "6 " + ItemType.OTHER.name() + "\n:");
+            for(int i = 0; i < 6; i++){
+                logger.info(i + " " + ItemType.getByIndex(i) + "\n");
+            }
             int temp = scanner.nextInt();
-
-            if (temp > 0 && temp < 7) {
-                switch (temp) {
-                    case 1 -> itemT = ItemType.FURNITURE;
-                    case 2 -> itemT = ItemType.BOOK;
-                    case 3 -> itemT = ItemType.DECOR;
-                    case 4 -> itemT = ItemType.MUSICAL_INSTRUMENT;
-                    case 5 -> itemT = ItemType.PAINTING;
-                    case 6 -> itemT = ItemType.OTHER;
-                }
-                Item item = new Item(name, description, currentUser.getParticipantCard(), itemT);
-                itemDAO.add(item);
-                currentUser.setItem(item);
-
+            ItemType itemType = ItemType.getByIndex(temp);
+            if(itemType!=null){
+                itemService.addItem(name, description, Session.getUser().getPhoneNumber(), itemType);
                 addItem = false;
             } else {
-                System.out.println("No such type");
+                logger.info("No such type");
             }
 
         }
@@ -79,56 +49,47 @@ public class ItemController {
     }
 
     public void showAllItems() {
-        items = itemDAO.getUserItems(currentUser.getParticipantCard());
-        int index = 0;
-        System.out.println("\tindex" + "\t\t" + "name" + "\t\t" + "description");
-        for (Item i :
-                items) {
-            index++;
-            System.out.println("\t" + index + "\t\t" + i.getName() + "\t\t" + i.getDescription());
+        Map<Integer, Item> items = itemService.getAllItems(Session.getUser().getPhoneNumber());
+        logger.info("\tid" + "\t\t" + "name" + "\t\t" + "description");
+        for (Item i : items.values()) {
+            logger.info("\t" + itemService.getId(i) + "\t\t" + i.getName() + "\t\t" + i.getDescription());
         }
     }
+
 
     public void removeItem() {
         showAllItems();
-        System.out.println("enter index: ");
-        itemDAO.delete(items.get(scanner.nextInt() - 1));
+        logger.info("enter id: ");
+        itemService.removeItem(scanner.nextInt());
     }
 
     public void removeAllItems() {
-        items = itemDAO.getUserItems(currentUser.getParticipantCard());
-        for (Item i :
-                items) {
-            itemDAO.delete(i);
-        }
+        itemService.removeAll( Session.getUser().getPhoneNumber());
     }
 
     public void showInfo() {
-        items = itemDAO.getUserItems(currentUser.getParticipantCard());
-        int index = 0;
-        for (Item i :
-                items) {
-            index++;
-            System.out.println(index + "\t\t" + i.getName());
+        Map<Integer, Item> items = itemService.getAllItems( Session.getUser().getPhoneNumber());
+        for (Item i : items.values()) {
+            logger.info(itemService.getId(i) + "\t\t" + i.getName());
         }
-        System.out.println("Enter item's index: ");
+        logger.info("Enter item's id: ");
         int input = scanner.nextInt();
-        while (input < 1 || input > index) {
-            System.out.println("No such index, try again: ");
+        while (!items.containsKey(input)) {
+            logger.info("No such id, try again: ");
             input = scanner.nextInt();
         }
-        Item item = items.get(input - 1);
-        System.out.println("Name: " + item.getName() + "\nDescription: " + item.getDescription() +
-                "\nType: " + item.getType() + "\nOwner ID: " + item.getOwnerCard());
+        Item item = items.get(input);
+        logger.info("Name: " + item.getName() + "\nDescription: " + item.getDescription() +
+                "\nType: " + item.getType() + "\nOwner phone: " + item.getOwnersPhone());
     }
 
     public void itemCommands() {
-        System.out.println("1. Add Item");
-        System.out.println("2. Show items");
-        System.out.println("3. Remove item");
-        System.out.println("4. Remove all items");
-        System.out.println("5. Show item's info");
-        System.out.println("6. Exit");
+        logger.info("1. Add Item");
+        logger.info("2. Show items");
+        logger.info("3. Remove item");
+        logger.info("4. Remove all items");
+        logger.info("5. Show item's info");
+        logger.info("6. Exit");
     }
 
     public void itemMenu() {
@@ -142,10 +103,10 @@ public class ItemController {
                 case 4 -> removeAllItems();
                 case 5 -> showInfo();
                 case 6 -> {
-                    setCurrentUser(null);
+                    Session.setUser(null);
                     runMenu = false;
                 }
-                default -> System.out.println("No such command");
+                default -> logger.info("No such command");
             }
         }
     }
