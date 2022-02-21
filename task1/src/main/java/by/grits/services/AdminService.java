@@ -1,10 +1,12 @@
 package by.grits.services;
 
+import by.grits.dao.DaoException;
 import by.grits.dao.ItemDao;
 import by.grits.dao.UserDao;
 import by.grits.entities.item.Item;
 import by.grits.entities.people.User;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class AdminService {
@@ -17,19 +19,16 @@ public class AdminService {
     this.userDao = userDao;
   }
 
-  public int getItemID(Item item) {
-    return itemDao.getId(item);
-  }
 
-  public Map<String, User> getAllUsers() {
+  public Collection<User> getAllUsers() throws DaoException {
     return userDao.getAll();
   }
 
-  public Map<Integer, Item> getAllItems() {
+  public Map<Integer, Item> getAllItems()  {
     return itemDao.getAll();
   }
 
-  public Map<Integer, Item> getUsersItems(String phoneNumber) {
+  public Map<Integer, Item> getUsersItems(String phoneNumber){
     return itemDao.getUserItems(phoneNumber);
   }
 
@@ -37,7 +36,7 @@ public class AdminService {
     return itemDao.getEntityById(id);
   }
 
-  public User getSpecificUser(String id) {
+  public User getSpecificUser(int id) {
     return userDao.get(id);
   }
 }

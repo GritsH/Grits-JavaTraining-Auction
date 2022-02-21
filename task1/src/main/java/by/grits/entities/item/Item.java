@@ -7,13 +7,14 @@ import java.util.Objects;
 public class Item {
   private String name;
   private String description;
-  private String ownersPhone;
+  private String ownersEmail;
   private ItemType type;
+  private int id;
 
-  public Item(String name, String description, String ownerPhone, ItemType type) {
+  public Item(String name, String description, String ownerEmail, ItemType type) {
     this.name = name;
     this.description = description;
-    this.ownersPhone = ownerPhone;
+    this.ownersEmail = ownerEmail;
     this.type = type;
   }
 
@@ -27,7 +28,7 @@ public class Item {
         + description
         + '\''
         + ", ownersPhone="
-        + ownersPhone
+        + ownersEmail
         + ", type="
         + type
         + '}';
@@ -38,7 +39,7 @@ public class Item {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Item item = (Item) o;
-    return ownersPhone == item.ownersPhone
+    return ownersEmail == item.ownersEmail
         && Objects.equals(name, item.name)
         && Objects.equals(description, item.description)
         && type == item.type;
@@ -46,11 +47,19 @@ public class Item {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, ownersPhone, type);
+    return Objects.hash(name, description, ownersEmail, type);
   }
 
-  public String getOwnersPhone() {
-    return ownersPhone;
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getOwnersEmail() {
+    return ownersEmail;
   }
 
   public String getName() {

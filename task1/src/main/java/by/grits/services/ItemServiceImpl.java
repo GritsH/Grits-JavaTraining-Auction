@@ -1,5 +1,6 @@
 package by.grits.services;
 
+import by.grits.dao.DaoException;
 import by.grits.dao.ItemDao;
 import by.grits.entities.enums.ItemType;
 import by.grits.entities.item.Item;
@@ -18,14 +19,22 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public void addItem(String name, String description, String ownersPhone, ItemType itemType) {
-    Item item = new Item(name, description, ownersPhone, itemType);
-    itemDao.add(item);
+  public void addItem(String name, String description, String ownersPhone, ItemType itemType) throws DaoException {
+    try{
+      Item item = new Item(name, description, ownersPhone, itemType);
+      itemDao.add(item);
+    }catch(Exception e){
+      throw new DaoException(e);
+    }
   }
 
   @Override
-  public void removeItem(int key) {
-    itemDao.delete(key);
+  public void removeItem(int key) throws DaoException {
+    try{
+      itemDao.delete(key);
+    }catch(Exception e){
+      throw new DaoException(e);
+    }
   }
 
   @Override
@@ -34,17 +43,17 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public int getId(Item i) {
-    return itemDao.getId(i);
-  }
-
-  @Override
-  public void removeAll(String ownersPhone) {
-    List<Item> items = new ArrayList<>(itemDao.getAll().values());
-    for (Item i : items) {
-      if (Objects.equals(i.getOwnersPhone(), ownersPhone)) {
-        itemDao.delete(itemDao.getId(i));
+  public void removeAll(String ownersPhone) throws DaoException {
+    try{
+      List<Item> items = new ArrayList<>(itemDao.getAll().values());
+      for (Item i : items) {
+        if (Objects.equals(i.getOwnersEmail(), ownersPhone)) {
+          itemDao.delete(i.getId());
+        }
       }
+    }catch(Exception e){
+      throw new DaoException(e);
     }
+
   }
 }

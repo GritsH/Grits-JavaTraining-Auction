@@ -1,18 +1,17 @@
 package by.grits.services;
 
+import by.grits.dao.DaoException;
 import by.grits.entities.enums.ItemType;
 import by.grits.entities.item.Item;
 
 import java.util.Map;
 
 public interface ItemService {
-  void addItem(String name, String description, String ownersPhone, ItemType itemType);
+  void addItem(String name, String description, String ownersPhone, ItemType itemType) throws DaoException;
 
-  void removeItem(int key);
+  void removeItem(int key) throws DaoException;
 
-  Map<Integer, Item> getAllItems(String phone);
+  Map<Integer, Item> getAllItems(String phone) throws DaoException;
 
-  int getId(Item i);
-
-  void removeAll(String participantCard);
+  void removeAll(String participantCard) throws DaoException;
 }

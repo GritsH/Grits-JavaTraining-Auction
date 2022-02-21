@@ -4,11 +4,13 @@ import by.grits.entities.item.Item;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class InMemoryItemDao implements ItemDao {
 
   private Map<Integer, Item> items = new HashMap<>();
-  private int key = 0;
+  private final AtomicInteger idCounter = new AtomicInteger();
 
   @Override
   public Item getEntityById(int id) {
@@ -17,8 +19,9 @@ public class InMemoryItemDao implements ItemDao {
 
   @Override
   public void add(Item item) {
-    items.put(key, item);
-    key++;
+    int id = idCounter.incrementAndGet();
+    item.setId(id);
+    items.put(id, item);
   }
 
   @Override
@@ -31,22 +34,13 @@ public class InMemoryItemDao implements ItemDao {
     return items;
   }
 
-  @Override
-  public int getId(Item item) {
-    for (Map.Entry<Integer, Item> entry : items.entrySet()) {
-      if (entry.getValue().equals(item)) {
-        return entry.getKey();
-      }
-    }
-    return -1;
-  }
 
   @Override
   public Map<Integer, Item> getUserItems(String ownersPhone) {
     Map<Integer, Item> itemList = new HashMap<>();
     for (Item i : items.values()) {
-      if (i.getOwnersPhone() == ownersPhone) {
-        itemList.put(getId(i), i);
+      if (Objects.equals(i.getOwnersEmail(), ownersPhone)) {
+        itemList.put(i.getId(), i);
       }
     }
     return itemList;

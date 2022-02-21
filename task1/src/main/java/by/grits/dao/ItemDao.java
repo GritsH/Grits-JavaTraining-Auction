@@ -7,13 +7,11 @@ import java.util.Map;
 public interface ItemDao {
   Item getEntityById(int id);
 
-  void add(Item item);
+  void add(Item item) throws DaoException;
 
-  void delete(int key);
+  void delete(int key) throws DaoException;
 
-  Map<Integer, Item> getAll();
+  Map<Integer, Item> getAll() ;
 
-  int getId(Item item);
-
-  Map<Integer, Item> getUserItems(String ownersPhone);
+  Map<Integer, Item> getUserItems(String ownersPhone) ;
 }

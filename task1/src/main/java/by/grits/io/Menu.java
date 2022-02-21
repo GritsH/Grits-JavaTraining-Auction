@@ -3,6 +3,7 @@ package by.grits.io;
 import by.grits.controllers.AdminController;
 import by.grits.controllers.ItemController;
 import by.grits.controllers.UserController;
+import by.grits.dao.DaoException;
 import by.grits.dao.ItemDao;
 import by.grits.dao.UserDao;
 import by.grits.entities.enums.RoleType;
@@ -17,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 public class Menu {
-  public void startMenu() throws NoSuchAlgorithmException, InvalidKeySpecException {
+  public void startMenu() throws NoSuchAlgorithmException, InvalidKeySpecException, DaoException {
     DaoFactory daoFactory = DaoFactory.getInstance();
     UserDao userDao = daoFactory.getInMemoryUserDaoImpl();
     UserService userService = new UserServiceImpl(userDao);

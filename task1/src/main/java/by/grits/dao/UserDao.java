@@ -2,19 +2,18 @@ package by.grits.dao;
 
 import by.grits.entities.people.User;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Map;
+import java.util.Collection;
 
 public interface UserDao {
-  User get(String id);
+  User get(int id);
 
-  void add(User user) throws NoSuchAlgorithmException, InvalidKeySpecException;
+  User getByEmail(String email);
 
-  void delete(int key);
+  void add(User user) throws DaoException;
 
-  Map<String, User> getAll();
+  void delete(int key) throws DaoException;
 
-  User getUserByLoginPassword(String login, String password)
-      throws NoSuchAlgorithmException, InvalidKeySpecException;
+  Collection<User> getAll() throws DaoException;
+
+  User signIn(String email, String password);
 }

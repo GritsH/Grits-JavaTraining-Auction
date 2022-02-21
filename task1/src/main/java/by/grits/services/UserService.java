@@ -1,15 +1,15 @@
 package by.grits.services;
 
+import by.grits.dao.DaoException;
 import by.grits.entities.people.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 public interface UserService {
-  User logIn(String login, String password)
-      throws NoSuchAlgorithmException, InvalidKeySpecException;
+  User logIn(String email, String password) throws DaoException;
 
-  void addNewUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException;
+  void addNewUser(User user) throws DaoException;
 
-  boolean userExists(String phoneNumber);
+  boolean userExists(String email) ;
 }

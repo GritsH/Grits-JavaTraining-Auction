@@ -9,7 +9,6 @@ public class User {
   private String name;
   private String phoneNumber;
   private String emailAddress;
-  private String login;
   private String password;
   private RoleType role;
 
@@ -17,13 +16,11 @@ public class User {
       String name,
       String phoneNumber,
       String emailAddress,
-      String login,
       String password,
       RoleType role) {
     this.name = name;
     this.phoneNumber = phoneNumber;
     this.emailAddress = emailAddress;
-    this.login = login;
     this.password = password;
     this.role = role;
   }
@@ -56,14 +53,6 @@ public class User {
     this.emailAddress = emailAddress;
   }
 
-  public String getLogin() {
-    return login;
-  }
-
-  public void setLogin(String login) {
-    this.login = login;
-  }
-
   public String getPassword() {
     return password;
   }
@@ -88,14 +77,13 @@ public class User {
     return Objects.equals(name, user.name)
         && Objects.equals(phoneNumber, user.phoneNumber)
         && Objects.equals(emailAddress, user.emailAddress)
-        && Objects.equals(login, user.login)
         && Objects.equals(password, user.password)
         && role == user.role;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, phoneNumber, emailAddress, login, password, role);
+    return Objects.hash(name, phoneNumber, emailAddress, password, role);
   }
 
   @Override
@@ -109,9 +97,6 @@ public class User {
         + '\''
         + ", emailAddress='"
         + emailAddress
-        + '\''
-        + ", login='"
-        + login
         + '\''
         + ", password='"
         + password
