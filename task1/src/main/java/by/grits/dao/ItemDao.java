@@ -11,7 +11,7 @@ public interface ItemDao {
 
   void delete(int key) throws DaoException;
 
-  Map<Integer, Item> getAll() ;
+  Map<Integer, Item> getAll() throws DaoException;
 
-  Map<Integer, Item> getUserItems(String ownersPhone) ;
+  Map<Integer, Item> getUserItems(String ownersPhone) throws DaoException;
 }

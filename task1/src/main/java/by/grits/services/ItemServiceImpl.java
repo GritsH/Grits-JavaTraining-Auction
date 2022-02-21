@@ -38,7 +38,7 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public Map<Integer, Item> getAllItems(String ownersPhone) {
+  public Map<Integer, Item> getAllItems(String ownersPhone) throws DaoException {
     return itemDao.getUserItems(ownersPhone);
   }
 

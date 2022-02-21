@@ -24,11 +24,11 @@ public class AdminService {
     return userDao.getAll();
   }
 
-  public Map<Integer, Item> getAllItems()  {
+  public Map<Integer, Item> getAllItems() throws DaoException {
     return itemDao.getAll();
   }
 
-  public Map<Integer, Item> getUsersItems(String phoneNumber){
+  public Map<Integer, Item> getUsersItems(String phoneNumber) throws DaoException {
     return itemDao.getUserItems(phoneNumber);
   }
 
@@ -36,7 +36,8 @@ public class AdminService {
     return itemDao.getEntityById(id);
   }
 
-  public User getSpecificUser(int id) {
+  public User getSpecificUser(String inputId) throws DaoException {
+    int id = Integer.parseInt(inputId);
     return userDao.get(id);
   }
 }

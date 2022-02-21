@@ -18,31 +18,47 @@ public class InMemoryItemDao implements ItemDao {
   }
 
   @Override
-  public void add(Item item) {
-    int id = idCounter.incrementAndGet();
-    item.setId(id);
-    items.put(id, item);
-  }
-
-  @Override
-  public void delete(int key) {
-    items.remove(key);
-  }
-
-  @Override
-  public Map<Integer, Item> getAll() {
-    return items;
-  }
-
-
-  @Override
-  public Map<Integer, Item> getUserItems(String ownersPhone) {
-    Map<Integer, Item> itemList = new HashMap<>();
-    for (Item i : items.values()) {
-      if (Objects.equals(i.getOwnersEmail(), ownersPhone)) {
-        itemList.put(i.getId(), i);
-      }
+  public void add(Item item) throws DaoException {
+    try {
+      int id = idCounter.incrementAndGet();
+      item.setId(id);
+      items.put(id, item);
+    } catch (Exception e) {
+      throw new DaoException(e);
     }
-    return itemList;
+  }
+
+  @Override
+  public void delete(int key) throws DaoException {
+    try {
+      items.remove(key);
+    } catch (Exception e) {
+      throw new DaoException(e);
+    }
+  }
+
+  @Override
+  public Map<Integer, Item> getAll() throws DaoException {
+    try {
+      return items;
+    } catch (Exception e) {
+      throw new DaoException(e);
+    }
+  }
+
+
+  @Override
+  public Map<Integer, Item> getUserItems(String ownersPhone) throws DaoException {
+    try {
+      Map<Integer, Item> itemList = new HashMap<>();
+      for (Item i : items.values()) {
+        if (Objects.equals(i.getOwnersEmail(), ownersPhone)) {
+          itemList.put(i.getId(), i);
+        }
+      }
+      return itemList;
+    } catch (Exception e) {
+      throw new DaoException(e);
+    }
   }
 }

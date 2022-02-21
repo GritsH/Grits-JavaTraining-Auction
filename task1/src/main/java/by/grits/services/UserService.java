@@ -11,5 +11,5 @@ public interface UserService {
 
   void addNewUser(User user) throws DaoException;
 
-  boolean userExists(String email) ;
+  boolean userExists(String email) throws DaoException;
 }

@@ -20,13 +20,21 @@ public class InMemoryUserDao implements UserDao {
   }
 
   @Override
-  public User get(int id) {
-    return usersById.get(id);
+  public User get(int id) throws DaoException {
+    try {
+      return usersById.get(id);
+    } catch (Exception e) {
+      throw new DaoException(e);
+    }
   }
 
   @Override
-  public User getByEmail(String email) {
-    return usersByEmail.get(email);
+  public User getByEmail(String email) throws DaoException {
+    try {
+      return usersByEmail.get(email);
+    } catch (Exception e) {
+      throw new DaoException(e);
+    }
   }
 
   @Override
@@ -61,12 +69,15 @@ public class InMemoryUserDao implements UserDao {
   }
 
   @Override
-  public User signIn(String email, String password) {
-    User foundUser = usersByEmail.get(email);
-    if (foundUser != null && foundUser.getPassword().equals(password)) {
-      return foundUser;
+  public User signIn(String email, String password) throws DaoException {
+    try {
+      User foundUser = usersByEmail.get(email);
+      if (foundUser != null && foundUser.getPassword().equals(password)) {
+        return foundUser;
+      }
+      return null;
+    } catch (Exception e) {
+      throw new DaoException(e);
     }
-    // later, add custom exception
-    return null;
   }
 }

@@ -13,7 +13,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User logIn(String email, String password) {
+  public User logIn(String email, String password) throws DaoException {
     return userDao.signIn(email, password);
   }
 
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean userExists(String email) {
+  public boolean userExists(String email) throws DaoException {
     return userDao.getByEmail(email) != null;
   }
 }

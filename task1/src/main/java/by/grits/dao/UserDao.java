@@ -5,9 +5,9 @@ import by.grits.entities.people.User;
 import java.util.Collection;
 
 public interface UserDao {
-  User get(int id);
+  User get(int id) throws DaoException;
 
-  User getByEmail(String email);
+  User getByEmail(String email) throws DaoException;
 
   void add(User user) throws DaoException;
 
@@ -15,5 +15,5 @@ public interface UserDao {
 
   Collection<User> getAll() throws DaoException;
 
-  User signIn(String email, String password);
+  User signIn(String email, String password) throws DaoException;
 }
