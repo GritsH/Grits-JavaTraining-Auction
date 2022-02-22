@@ -11,140 +11,155 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class AdminController {
-    private static final  Logger LOGGER = LogManager.getLogger(AdminController.class);
-    private final Scanner scanner;
-    private final AdminService adminService;
-    boolean isEmpty = false;
+  private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
+  private final Scanner scanner;
+  private final AdminService adminService;
+  boolean isEmpty = false;
 
-    public AdminController(ItemDao itemDao, UserDao userDao) {
-        adminService = new AdminService(itemDao, userDao);
-        scanner = new Scanner(System.in);
-    }
+  public AdminController(ItemDao itemDao, UserDao userDao) {
+    adminService = new AdminService(itemDao, userDao);
+    scanner = new Scanner(System.in);
+  }
 
-    public void showAllUsers() throws DaoException {
-        Collection<User> allUsers = adminService.getAllUsers();
-        if (!allUsers.isEmpty() && allUsers.size() > 1) {
-            LOGGER.info("id\t\tname\t\temail\t\tphone\t\t");
-            for (User user : allUsers) {
-                if (user.getPhoneNumber().equals("0")) {
-                    continue;
-                }
-                LOGGER.info(user.getId() + "\t" + user.getName() + "\t" + user.getEmailAddress() +
-                        "\t" + user.getPhoneNumber() + "\t");
-                isEmpty = false;
-            }
-        } else {
-            LOGGER.info("No users yet");
-            isEmpty = true;
+  public void showAllUsers() throws DaoException {
+    Collection<User> allUsers = adminService.getAllUsers();
+    if (!allUsers.isEmpty() && allUsers.size() > 1) {
+      LOGGER.info("id\t\tname\t\temail\t\tphone\t\t");
+      for (User user : allUsers) {
+        if (user.getPhoneNumber().equals("0")) {
+          continue;
         }
+        LOGGER.info(
+            user.getId()
+                + "\t"
+                + user.getName()
+                + "\t"
+                + user.getEmailAddress()
+                + "\t"
+                + user.getPhoneNumber()
+                + "\t");
+        isEmpty = false;
+      }
+    } else {
+      LOGGER.info("No users yet");
+      isEmpty = true;
     }
+  }
 
-    public void showUserInfo(User user) throws DaoException {
-        Collection<Item> items = adminService.getUsersItems(user.getEmailAddress());
-        LOGGER.info("Name: " + user.getName());
-        LOGGER.info("Email: " + user.getEmailAddress());
-        LOGGER.info("Phone number: " + user.getPhoneNumber());
-        LOGGER.info("Items: ");
-        for (Item item : items) {
-            showItemInfo(item);
-            LOGGER.info("\t------------------------------------------");
-        }
+  public void showUserInfo(User user) throws DaoException {
+    Collection<Item> items = adminService.getUsersItems(user.getEmailAddress());
+    LOGGER.info("Name: " + user.getName());
+    LOGGER.info("Email: " + user.getEmailAddress());
+    LOGGER.info("Phone number: " + user.getPhoneNumber());
+    LOGGER.info("Items: ");
+    for (Item item : items) {
+      showItemInfo(item);
+      LOGGER.info("\t------------------------------------------");
     }
+  }
 
-    private void showAllItems() throws DaoException {
-        Collection<Item> allItems = adminService.getAllItems();
-        if (!allItems.isEmpty()) {
-            LOGGER.info("id\t\tname\t\towner email");
-            for (Item item : allItems) {
-                LOGGER.info(item.getId() + "\t\t" + item.getName() + "\t\t" + item.getOwnersEmail());
-                isEmpty = false;
-            }
-        } else {
-            LOGGER.info("No items yet");
-            isEmpty = true;
-        }
+  private void showAllItems() throws DaoException {
+    Collection<Item> allItems = adminService.getAllItems();
+    if (!allItems.isEmpty()) {
+      LOGGER.info("id\t\tname\t\towner email");
+      for (Item item : allItems) {
+        LOGGER.info(item.getId() + "\t\t" + item.getName() + "\t\t" + item.getOwnersEmail());
+        isEmpty = false;
+      }
+    } else {
+      LOGGER.info("No items yet");
+      isEmpty = true;
     }
+  }
 
-    private void showItemInfo(Item item) {
-        LOGGER.info("\tname: " + item.getName());
-        LOGGER.info("\tdescription: " + item.getDescription());
-        LOGGER.info("\ttype: " + item.getType());
-        LOGGER.info("\towner email: " + item.getOwnersEmail());
+  private void showItemInfo(Item item) {
+    LOGGER.info("\tname: " + item.getName());
+    LOGGER.info("\tdescription: " + item.getDescription());
+    LOGGER.info("\ttype: " + item.getType());
+    LOGGER.info("\towner email: " + item.getOwnersEmail());
+  }
 
+  private void specificItemMenu() throws DaoException {
+    boolean run = true;
+    while (run) {
+      scanner.nextLine();
+      LOGGER.info("Show info of the specific item? [y/n]");
+      switch (scanner.nextLine().toLowerCase(Locale.ROOT)) {
+        case "y":
+          LOGGER.info("Enter id: ");
+          showItemInfo(adminService.getSpecificItem(scanner.nextInt()));
+          break;
+        case "n":
+          run = false;
+          break;
+        default:
+          LOGGER.info("No such command");
+          break;
+      }
     }
+  }
 
-    private void specificItemMenu() throws DaoException {
-        boolean run = true;
-        while (run) {
-            scanner.nextLine();
-            LOGGER.info("Show info of the specific item? [y/n]");
-            switch (scanner.nextLine().toLowerCase(Locale.ROOT)) {
-                case "y" -> {
-                    LOGGER.info("Enter id: ");
-                    showItemInfo(adminService.getSpecificItem(scanner.nextInt()));
-                }
-                case "n" -> run = false;
-                default -> LOGGER.info("No such command");
-            }
-        }
+  private void specificUser() throws DaoException {
+    scanner.nextLine();
+    boolean run = true;
+    while (run) {
+      LOGGER.info("Show info of the specific user? [y/n]");
+      switch (scanner.nextLine().toLowerCase(Locale.ROOT)) {
+        case "y":
+          LOGGER.info("Enter id: ");
+          String input = scanner.nextLine();
+          if (Pattern.matches("^\\d$", input)) {
+            int inputId = Integer.parseInt(input);
+            showUserInfo(adminService.getSpecificUser(inputId));
+          } else {
+            LOGGER.info("Wrong input");
+          }
+          break;
+        case "n":
+          run = false;
+          break;
+        default:
+          LOGGER.info("No such command");
+          break;
+      }
     }
+  }
 
-    private void specificUser() throws DaoException {
-        scanner.nextLine();
-        boolean run = true;
-        while (run) {
-            LOGGER.info("Show info of the specific user? [y/n]");
-            switch (scanner.nextLine().toLowerCase(Locale.ROOT)) {
-                case "y" -> {
-                    LOGGER.info("Enter id: ");
-                    String input = scanner.nextLine();
-                    if(Pattern.matches("^\\d$", input)){
-                        int inputId = Integer.parseInt(input);
-                        showUserInfo(adminService.getSpecificUser(inputId));
-                    }else{
-                        LOGGER.info("Wrong input");
-                    }
-                }
-                case "n" -> run = false;
-                default -> LOGGER.info("No such command");
-            }
-        }
+  private void adminCommands() {
+    LOGGER.info("1. Show all users");
+    LOGGER.info("2. Show all items");
+    LOGGER.info("3. Exit");
+  }
+
+  public void adminMenu() throws DaoException {
+    boolean runMenu = true;
+    while (runMenu) {
+      adminCommands();
+      int choice = scanner.nextInt();
+      switch (choice) {
+        case 1:
+          showAllUsers();
+          if (!isEmpty) {
+            specificUser();
+          }
+          break;
+        case 2:
+          showAllItems();
+          if (!isEmpty) {
+            specificItemMenu();
+          }
+          break;
+        case 3:
+          runMenu = false;
+          break;
+        default:
+          LOGGER.info("No such command");
+          break;
+      }
     }
-
-    private void adminCommands() {
-        LOGGER.info("1. Show all users");
-        LOGGER.info("2. Show all items");
-        LOGGER.info("3. Exit");
-    }
-
-    public void adminMenu() throws DaoException {
-        boolean runMenu = true;
-        while (runMenu) {
-            adminCommands();
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1 -> {
-                    showAllUsers();
-                    if (!isEmpty) {
-                            specificUser();
-                    }
-                }
-                case 2 -> {
-                    showAllItems();
-                    if (!isEmpty) {
-                        specificItemMenu();
-                    }
-
-                }
-                case 3 -> runMenu = false;
-                default -> LOGGER.info("No such command");
-            }
-        }
-    }
-
+  }
 }
