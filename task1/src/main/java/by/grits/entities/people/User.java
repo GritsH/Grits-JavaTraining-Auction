@@ -13,11 +13,7 @@ public class User {
   private RoleType role;
 
   public User(
-      String name,
-      String phoneNumber,
-      String emailAddress,
-      String password,
-      RoleType role) {
+      String name, String phoneNumber, String emailAddress, String password, RoleType role) {
     this.name = name;
     this.phoneNumber = phoneNumber;
     this.emailAddress = emailAddress;

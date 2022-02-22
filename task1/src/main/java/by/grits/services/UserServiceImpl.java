@@ -19,11 +19,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void addNewUser(User user) throws DaoException {
-    try {
-      userDao.add(user);
-    } catch (DaoException e) {
-      throw new DaoException(e);
-    }
+    userDao.add(user);
   }
 
   @Override

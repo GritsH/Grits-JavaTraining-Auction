@@ -2,7 +2,7 @@ package by.grits.dao;
 
 import by.grits.entities.item.Item;
 
-import java.util.Map;
+import java.util.Collection;
 
 public interface ItemDao {
   Item getEntityById(int id);
@@ -11,7 +11,7 @@ public interface ItemDao {
 
   void delete(int key) throws DaoException;
 
-  Map<Integer, Item> getAll() throws DaoException;
+  Collection<Item> getAll() throws DaoException;
 
-  Map<Integer, Item> getUserItems(String ownersPhone) throws DaoException;
+  Collection<Item> getUserItems(String ownersEmail) throws DaoException;
 }

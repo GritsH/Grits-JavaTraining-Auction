@@ -2,15 +2,13 @@ package by.grits.dao;
 
 import by.grits.entities.item.Item;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InMemoryItemDao implements ItemDao {
 
-  private Map<Integer, Item> items = new HashMap<>();
   private final AtomicInteger idCounter = new AtomicInteger();
+  private Map<Integer, Item> items = new HashMap<>();
 
   @Override
   public Item getEntityById(int id) {
@@ -38,22 +36,21 @@ public class InMemoryItemDao implements ItemDao {
   }
 
   @Override
-  public Map<Integer, Item> getAll() throws DaoException {
+  public Collection<Item> getAll() throws DaoException {
     try {
-      return items;
+      return items.values();
     } catch (Exception e) {
       throw new DaoException(e);
     }
   }
 
-
   @Override
-  public Map<Integer, Item> getUserItems(String ownersPhone) throws DaoException {
+  public Collection<Item> getUserItems(String ownersEmail) throws DaoException {
     try {
-      Map<Integer, Item> itemList = new HashMap<>();
+      Collection<Item> itemList = new HashSet<>();
       for (Item i : items.values()) {
-        if (Objects.equals(i.getOwnersEmail(), ownersPhone)) {
-          itemList.put(i.getId(), i);
+        if (Objects.equals(i.getOwnersEmail(), ownersEmail)) {
+          itemList.add(i);
         }
       }
       return itemList;
