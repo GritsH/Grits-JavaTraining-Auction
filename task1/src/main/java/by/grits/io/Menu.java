@@ -31,10 +31,14 @@ public class Menu {
     while (true) {
       userController.userMenu();
       if (Session.getUser().getRole().equals(RoleType.ADMIN)) {
-        adminController.adminMenu();
-        userController.userMenu();
+        boolean runAdmin = true;
+        while (runAdmin) {
+          adminController.adminMenu();
+          runAdmin = false;
+        }
+      } else {
+        itemController.itemMenu();
       }
-      itemController.itemMenu();
     }
   }
 }

@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class AdminController {
     private static final  Logger LOGGER = LogManager.getLogger(AdminController.class);
@@ -44,23 +45,23 @@ public class AdminController {
     }
 
     public void showUserInfo(User user) throws DaoException {
-        Map<Integer, Item> items = adminService.getUsersItems(user.getPhoneNumber());
+        Collection<Item> items = adminService.getUsersItems(user.getEmailAddress());
         LOGGER.info("Name: " + user.getName());
         LOGGER.info("Email: " + user.getEmailAddress());
         LOGGER.info("Phone number: " + user.getPhoneNumber());
         LOGGER.info("Items: ");
-        for (Item i : items.values()) {
-            showItemInfo(i);
+        for (Item item : items) {
+            showItemInfo(item);
             LOGGER.info("\t------------------------------------------");
         }
     }
 
     private void showAllItems() throws DaoException {
-        Map<Integer, Item> allItems = adminService.getAllItems();
+        Collection<Item> allItems = adminService.getAllItems();
         if (!allItems.isEmpty()) {
             LOGGER.info("id\t\tname\t\towner email");
-            for (Item i : allItems.values()) {
-                LOGGER.info(i.getId() + "\t\t" + i.getName() + "\t\t" + i.getOwnersEmail());
+            for (Item item : allItems) {
+                LOGGER.info(item.getId() + "\t\t" + item.getName() + "\t\t" + item.getOwnersEmail());
                 isEmpty = false;
             }
         } else {
@@ -94,14 +95,20 @@ public class AdminController {
     }
 
     private void specificUser() throws DaoException {
+        scanner.nextLine();
         boolean run = true;
         while (run) {
-            scanner.nextLine();
             LOGGER.info("Show info of the specific user? [y/n]");
             switch (scanner.nextLine().toLowerCase(Locale.ROOT)) {
                 case "y" -> {
                     LOGGER.info("Enter id: ");
-                    showUserInfo(adminService.getSpecificUser(scanner.nextInt()));
+                    String input = scanner.nextLine();
+                    if(Pattern.matches("^\\d$", input)){
+                        int inputId = Integer.parseInt(input);
+                        showUserInfo(adminService.getSpecificUser(inputId));
+                    }else{
+                        LOGGER.info("Wrong input");
+                    }
                 }
                 case "n" -> run = false;
                 default -> LOGGER.info("No such command");

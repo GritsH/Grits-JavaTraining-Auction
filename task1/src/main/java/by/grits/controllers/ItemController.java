@@ -8,7 +8,7 @@ import by.grits.utils.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Map;
+import java.util.Collection;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -25,7 +25,6 @@ public class ItemController {
 
     public void addItem() throws DaoException {
         scanner.nextLine();
-
         LOGGER.info("Item name: ");
         String name = scanner.nextLine();
         LOGGER.info("Item description: ");
@@ -40,7 +39,8 @@ public class ItemController {
             if(Pattern.matches("^\\d$", temp)){
                 ItemType itemType = ItemType.getByIndex(Integer.parseInt(temp));
                 if(itemType!=null){
-                    itemService.addItem(name, description, Session.getUser().getPhoneNumber(), itemType);
+                    Item addedItem = new Item(name, description, Session.getUser().getEmailAddress(), itemType);
+                    itemService.addItem(addedItem);
                     addItem = false;
                 }
             }
@@ -53,9 +53,9 @@ public class ItemController {
     }
 
     public void showAllItems() throws DaoException {
-        Map<Integer, Item> items = itemService.getAllItems(Session.getUser().getPhoneNumber());
+        Collection<Item> items = itemService.getAllItems(Session.getUser().getEmailAddress());
         LOGGER.info("\tid" + "\t\t" + "name" + "\t\t" + "description");
-        for (Item i : items.values()) {
+        for (Item i : items) {
             LOGGER.info("\t" + i.getId() + "\t\t" + i.getName() + "\t\t" + i.getDescription());
         }
     }
@@ -68,23 +68,36 @@ public class ItemController {
     }
 
     public void removeAllItems() throws DaoException {
-        itemService.removeAll( Session.getUser().getPhoneNumber());
+        itemService.removeAll( Session.getUser().getEmailAddress());
     }
 
     public void showInfo() throws DaoException {
-        Map<Integer, Item> items = itemService.getAllItems( Session.getUser().getPhoneNumber());
-        for (Item i : items.values()) {
+        Collection<Item> items = itemService.getAllItems(Session.getUser().getEmailAddress());
+        for (Item i : items) {
             LOGGER.info(i.getId() + "\t\t" + i.getName());
         }
+        scanner.nextLine();
         LOGGER.info("Enter item's id: ");
-        int input = scanner.nextInt();
-        while (!items.containsKey(input)) {
-            LOGGER.info("No such id, try again: ");
-            input = scanner.nextInt();
+        while(true){
+            String input = scanner.nextLine();
+            if(Pattern.matches("^\\d$", input)){
+                int id = Integer.parseInt(input);
+                boolean itemExists = false;
+                for (Item item : items) {
+                    if(item.getId()==id){
+                        itemExists = true;
+                        LOGGER.info("Name: " + item.getName() + "\nDescription: " + item.getDescription() +
+                                "\nType: " + item.getType() + "\nOwner email: " + item.getOwnersEmail());
+                        break;
+                    }
+                }
+                if(!itemExists){
+                    LOGGER.info("No such id, try again: ");
+                }
+            }else{
+                LOGGER.info("Invalid input, try again: ");
+            }
         }
-        Item item = items.get(input);
-        LOGGER.info("Name: " + item.getName() + "\nDescription: " + item.getDescription() +
-                "\nType: " + item.getType() + "\nOwner phone: " + item.getOwnersEmail());
     }
 
     public void itemCommands() {

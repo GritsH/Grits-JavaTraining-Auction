@@ -22,8 +22,6 @@ public class UserController {
     }
 
     public void signUp() throws DaoException {
-        scanner.nextLine();
-
         LOGGER.info("Your name: ");
         String name = scanner.nextLine();
 
@@ -55,7 +53,6 @@ public class UserController {
     }
 
     public boolean logIn() throws DaoException {
-        scanner.nextLine();
 
         LOGGER.info("Enter email: ");
         String email = scanner.nextLine();
@@ -91,15 +88,16 @@ public class UserController {
         boolean runMenu = true;
         while (runMenu) {
             userCommands();
-            switch (scanner.nextInt()) {
-                case 1 -> signUp();
-                case 2 -> {
+            String input = scanner.nextLine();
+            switch (input) {
+                case "1" -> signUp();
+                case "2" -> {
                     Session.setUser(null);
                     if (logIn()) {
                         runMenu = false;
                     }
                 }
-                case 3 -> System.exit(0);
+                case "3" -> System.exit(0);
                 default -> LOGGER.info("No such command");
             }
         }
