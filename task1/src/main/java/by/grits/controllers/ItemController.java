@@ -2,15 +2,16 @@ package by.grits.controllers;
 
 import by.grits.dao.DaoException;
 import by.grits.entities.enums.ItemType;
-import by.grits.entities.item.Item;
+import by.grits.entities.items.Item;
 import by.grits.services.ItemService;
 import by.grits.utils.Session;
+import by.grits.validation.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
+import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class ItemController {
   private static final Logger LOGGER = LogManager.getLogger(ItemController.class);
@@ -23,7 +24,7 @@ public class ItemController {
   }
 
   public void addItem() throws DaoException {
-    scanner.nextLine();
+    // scanner.nextLine();
     LOGGER.info("Item name: ");
     String name = scanner.nextLine();
     LOGGER.info("Item description: ");
@@ -34,23 +35,27 @@ public class ItemController {
       for (int i = 0; i < 6; i++) {
         LOGGER.info(i + " " + ItemType.getByIndex(i));
       }
-      String temp = scanner.nextLine();
-      if (Pattern.matches("^\\d$", temp)) {
-        ItemType itemType = ItemType.getByIndex(Integer.parseInt(temp));
+      try {
+        int temp = scanner.nextInt();
+        ItemType itemType = ItemType.getByIndex(temp);
         if (itemType != null) {
           Item addedItem =
               new Item(name, description, Session.getUser().getEmailAddress(), itemType);
           itemService.addItem(addedItem);
+          LOGGER.info("Item added");
+          scanner.nextLine();
           addItem = false;
         }
-      } else {
-        LOGGER.info("No such type");
+      } catch (InputMismatchException e) {
+        scanner.nextLine();
+        LOGGER.info("Wrong input type");
       }
     }
   }
 
   public void showAllItems() throws DaoException {
     Collection<Item> items = itemService.getAllItems(Session.getUser().getEmailAddress());
+    items.stream().sorted();
     LOGGER.info("\tid" + "\t\t" + "name" + "\t\t" + "description");
     for (Item i : items) {
       LOGGER.info("\t" + i.getId() + "\t\t" + i.getName() + "\t\t" + i.getDescription());
@@ -61,10 +66,13 @@ public class ItemController {
     showAllItems();
     LOGGER.info("enter id: ");
     itemService.removeItem(scanner.nextInt());
+    LOGGER.info("Item removed");
+    scanner.nextLine();
   }
 
   public void removeAllItems() throws DaoException {
     itemService.removeAll(Session.getUser().getEmailAddress());
+    LOGGER.info("All items removed");
   }
 
   public void showInfo() throws DaoException {
@@ -72,16 +80,15 @@ public class ItemController {
     for (Item i : items) {
       LOGGER.info(i.getId() + "\t\t" + i.getName());
     }
-    scanner.nextLine();
-    LOGGER.info("Enter item's id: ");
-    while (true) {
-      String input = scanner.nextLine();
-      if (Pattern.matches("^\\d$", input)) {
-        int id = Integer.parseInt(input);
-        boolean itemExists = false;
+
+    try {
+      LOGGER.info("Enter item's id: ");
+      int id = scanner.nextInt();
+      boolean itemIsNotFound = true;
+      while (itemIsNotFound) {
         for (Item item : items) {
           if (item.getId() == id) {
-            itemExists = true;
+            itemIsNotFound = false;
             LOGGER.info(
                 "Name: "
                     + item.getName()
@@ -91,15 +98,19 @@ public class ItemController {
                     + item.getType()
                     + "\nOwner email: "
                     + item.getOwnersEmail());
+            scanner.nextLine();
             break;
           }
         }
-        if (!itemExists) {
-          LOGGER.info("No such id, try again: ");
+        if (itemIsNotFound) {
+          scanner.nextLine();
+          LOGGER.info("No such id");
+          break;
         }
-      } else {
-        LOGGER.info("Invalid input, try again: ");
       }
+    } catch (InputMismatchException e) {
+      scanner.nextLine();
+      LOGGER.info("Wrong input type");
     }
   }
 
@@ -116,23 +127,23 @@ public class ItemController {
     boolean runMenu = true;
     while (runMenu) {
       itemCommands();
-      switch (scanner.nextInt()) {
-        case 1:
+      switch (scanner.nextLine()) {
+        case "1":
           addItem();
           break;
-        case 2:
+        case "2":
           showAllItems();
           break;
-        case 3:
+        case "3":
           removeItem();
           break;
-        case 4:
+        case "4":
           removeAllItems();
           break;
-        case 5:
+        case "5":
           showInfo();
           break;
-        case 6:
+        case "6":
           Session.setUser(null);
           runMenu = false;
           break;

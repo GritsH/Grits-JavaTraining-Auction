@@ -3,16 +3,16 @@ package by.grits.controllers;
 import by.grits.dao.DaoException;
 import by.grits.dao.ItemDao;
 import by.grits.dao.UserDao;
-import by.grits.entities.item.Item;
+import by.grits.entities.items.Item;
 import by.grits.entities.people.User;
 import by.grits.services.AdminService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class AdminController {
   private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
@@ -27,6 +27,7 @@ public class AdminController {
 
   public void showAllUsers() throws DaoException {
     Collection<User> allUsers = adminService.getAllUsers();
+    allUsers.stream().sorted();
     if (!allUsers.isEmpty() && allUsers.size() > 1) {
       LOGGER.info("id\t\tname\t\temail\t\tphone\t\t");
       for (User user : allUsers) {
@@ -52,6 +53,7 @@ public class AdminController {
 
   public void showUserInfo(User user) throws DaoException {
     Collection<Item> items = adminService.getUsersItems(user.getEmailAddress());
+    items.stream().sorted();
     LOGGER.info("Name: " + user.getName());
     LOGGER.info("Email: " + user.getEmailAddress());
     LOGGER.info("Phone number: " + user.getPhoneNumber());
@@ -64,6 +66,7 @@ public class AdminController {
 
   private void showAllItems() throws DaoException {
     Collection<Item> allItems = adminService.getAllItems();
+    allItems.stream().sorted();
     if (!allItems.isEmpty()) {
       LOGGER.info("id\t\tname\t\towner email");
       for (Item item : allItems) {
@@ -81,17 +84,23 @@ public class AdminController {
     LOGGER.info("\tdescription: " + item.getDescription());
     LOGGER.info("\ttype: " + item.getType());
     LOGGER.info("\towner email: " + item.getOwnersEmail());
+    scanner.nextLine();
   }
 
-  private void specificItemMenu() throws DaoException {
+  private void specificItemMenu() {
     boolean run = true;
     while (run) {
-      scanner.nextLine();
+      // scanner.nextLine();
       LOGGER.info("Show info of the specific item? [y/n]");
-      switch (scanner.nextLine().toLowerCase(Locale.ROOT)) {
+      String input = scanner.nextLine().toLowerCase(Locale.ROOT);
+      switch (input) {
         case "y":
           LOGGER.info("Enter id: ");
-          showItemInfo(adminService.getSpecificItem(scanner.nextInt()));
+          try {
+            showItemInfo(adminService.getSpecificItem(scanner.nextInt()));
+          } catch (InputMismatchException e) {
+            LOGGER.info("Wrong input, dummy");
+          }
           break;
         case "n":
           run = false;
@@ -104,19 +113,17 @@ public class AdminController {
   }
 
   private void specificUser() throws DaoException {
-    scanner.nextLine();
     boolean run = true;
     while (run) {
       LOGGER.info("Show info of the specific user? [y/n]");
       switch (scanner.nextLine().toLowerCase(Locale.ROOT)) {
         case "y":
           LOGGER.info("Enter id: ");
-          String input = scanner.nextLine();
-          if (Pattern.matches("^\\d$", input)) {
-            int inputId = Integer.parseInt(input);
-            showUserInfo(adminService.getSpecificUser(inputId));
-          } else {
-            LOGGER.info("Wrong input");
+          try {
+            showUserInfo(adminService.getSpecificUser(scanner.nextInt()));
+          } catch (InputMismatchException e) {
+            scanner.nextLine();
+            LOGGER.info("Wrong input type, dummy");
           }
           break;
         case "n":
@@ -139,21 +146,20 @@ public class AdminController {
     boolean runMenu = true;
     while (runMenu) {
       adminCommands();
-      int choice = scanner.nextInt();
-      switch (choice) {
-        case 1:
+      switch (scanner.nextLine()) {
+        case "1":
           showAllUsers();
           if (!isEmpty) {
             specificUser();
           }
           break;
-        case 2:
+        case "2":
           showAllItems();
           if (!isEmpty) {
             specificItemMenu();
           }
           break;
-        case 3:
+        case "3":
           runMenu = false;
           break;
         default:
