@@ -2,10 +2,13 @@ package by.grits.entities.items;
 
 import by.grits.entities.enums.ItemType;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Item implements Comparable<Item> {
+public class Item implements Comparable<Item>, Serializable {
+  private static final long serialVersionUID = 2l;
+
   private Integer id;
   private String name;
   private String description;

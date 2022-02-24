@@ -5,6 +5,7 @@ import by.grits.entities.items.Item;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/** This class is responsible for different operations with imitated table of database. */
 public class InMemoryItemDao implements ItemDao {
 
   private final AtomicInteger idCounter = new AtomicInteger();

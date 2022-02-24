@@ -14,6 +14,10 @@ import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
+/**
+ * This is class controller which provides console input and output for user whose role type is
+ * ADMIN. User with such role has access to basic users' and items' information.
+ */
 public class AdminController {
   private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
   private final Scanner scanner;

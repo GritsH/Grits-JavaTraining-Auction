@@ -9,8 +9,15 @@ import by.grits.validation.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
+/**
+ * This is class controller which provides console input\output. This class helps with creation of
+ * new user and authorization by collecting input data and passing this data to the responsible
+ * service.
+ */
 public class UserController {
   private static final Logger LOGGER = LogManager.getLogger(UserController.class);
   private Scanner scanner;
@@ -59,14 +66,24 @@ public class UserController {
     String password = scanner.nextLine();
 
     if (email.equals("admin@gmail.com")) {
-      Session.setUser(userService.logIn(email, password));
+      try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("user.dat"))) {
+        oos.writeObject(userService.logIn(email, password));
+        oos.flush();
+      } catch (Exception e) {
+        LOGGER.info("Smth wrong with file");
+      }
       if (Session.getUser() != null) {
         LOGGER.info("Logged in as ADMIN");
         return true;
       }
       return false;
     } else if (userService.logIn(email, password) != null) {
-      Session.setUser(userService.logIn(email, password));
+      try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("user.dat"))) {
+        oos.writeObject(userService.logIn(email, password));
+        oos.flush();
+      } catch (Exception e) {
+        LOGGER.info("Smth wrong with file");
+      }
       LOGGER.info("You are in!!");
       return true;
     } else {
@@ -91,7 +108,6 @@ public class UserController {
           signUp();
           break;
         case "2":
-          Session.setUser(null);
           if (logIn()) {
             runMenu = false;
           }

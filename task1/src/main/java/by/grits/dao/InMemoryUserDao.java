@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/** This class is responsible for different operations with imitated table of database. */
 public class InMemoryUserDao implements UserDao {
   private Map<String, User> usersByEmail = new HashMap<>();
   private Map<Integer, User> usersById = new HashMap<>();

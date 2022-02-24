@@ -2,10 +2,13 @@ package by.grits.entities.people;
 
 import by.grits.entities.enums.RoleType;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class User implements Comparable<User> {
+public class User implements Comparable<User>, Serializable {
+  private static final long serialVersionUID = 1L;
+
   private Integer id;
   private String name;
   private String phoneNumber;

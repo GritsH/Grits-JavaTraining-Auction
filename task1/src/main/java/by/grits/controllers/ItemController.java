@@ -5,7 +5,6 @@ import by.grits.entities.enums.ItemType;
 import by.grits.entities.items.Item;
 import by.grits.services.ItemService;
 import by.grits.utils.Session;
-import by.grits.validation.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +12,10 @@ import java.util.Collection;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * This is class controller which provides console input\output. Mostly works with users whose role
+ * type is USER. Such users can add new items, remove them or get all the information about it.
+ */
 public class ItemController {
   private static final Logger LOGGER = LogManager.getLogger(ItemController.class);
   private Scanner scanner;
@@ -144,7 +147,6 @@ public class ItemController {
           showInfo();
           break;
         case "6":
-          Session.setUser(null);
           runMenu = false;
           break;
         default:

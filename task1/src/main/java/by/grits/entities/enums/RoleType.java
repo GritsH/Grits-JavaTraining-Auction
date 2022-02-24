@@ -1,6 +1,8 @@
 package by.grits.entities.enums;
 
-public enum RoleType {
+import java.io.Serializable;
+
+public enum RoleType implements Serializable {
   ADMIN,
   USER
 }

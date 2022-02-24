@@ -1,6 +1,8 @@
 package by.grits.entities.enums;
 
-public enum ItemType {
+import java.io.Serializable;
+
+public enum ItemType implements Serializable {
   FURNITURE(0),
   BOOK(1),
   DECOR(2),

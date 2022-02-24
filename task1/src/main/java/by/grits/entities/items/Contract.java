@@ -1,6 +1,9 @@
 package by.grits.entities.items;
 
-public class Contract {
+import java.io.Serializable;
+
+/** This class represents the entity of contract. */
+public class Contract implements Serializable {
   private String signingDate;
   private Integer contractSubjectId;
   private String ownerId;
