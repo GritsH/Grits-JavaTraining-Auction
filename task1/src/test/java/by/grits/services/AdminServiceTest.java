@@ -78,7 +78,6 @@ class AdminServiceTest {
     verifyNoMoreInteractions(itemDao);
   }
 
-
   @Test
   void getSpecificItem() {
     when(itemDao.getEntityById(1)).thenReturn(mockedItem);
