@@ -2,7 +2,7 @@ package by.grits.services;
 
 import by.grits.dao.DaoException;
 import by.grits.dao.ItemDao;
-import by.grits.entities.item.Item;
+import by.grits.entities.items.Item;
 
 import java.util.ArrayList;
 import java.util.Collection;

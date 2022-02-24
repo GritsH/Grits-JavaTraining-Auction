@@ -1,4 +1,6 @@
-package by.grits.entities.item;
+package by.grits.entities.items;
+
+import java.util.Date;
 
 public class Lot {
   private int id;

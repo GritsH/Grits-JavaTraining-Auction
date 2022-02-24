@@ -4,6 +4,7 @@ import by.grits.controllers.AdminController;
 import by.grits.controllers.ItemController;
 import by.grits.controllers.UserController;
 import by.grits.dao.DaoException;
+import by.grits.dao.DaoInitializer;
 import by.grits.dao.ItemDao;
 import by.grits.dao.UserDao;
 import by.grits.entities.enums.RoleType;
@@ -14,11 +15,8 @@ import by.grits.services.UserService;
 import by.grits.services.UserServiceImpl;
 import by.grits.utils.Session;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 public class Menu {
-  public void startMenu() throws NoSuchAlgorithmException, InvalidKeySpecException, DaoException {
+  public void startMenu() throws DaoException {
     DaoFactory daoFactory = DaoFactory.getInstance();
     UserDao userDao = daoFactory.getInMemoryUserDaoImpl();
     UserService userService = new UserServiceImpl(userDao);
@@ -27,6 +25,11 @@ public class Menu {
     ItemDao itemDao = daoFactory.getInMemoryItemDaoImpl();
     ItemService itemService = new ItemServiceImpl(itemDao);
     ItemController itemController = new ItemController(itemService);
+
+    DaoInitializer daoInitializer = new DaoInitializer();
+    daoInitializer.initializeUsers(userDao);
+    daoInitializer.initializeItems(itemDao);
+
     AdminController adminController = new AdminController(itemDao, userDao);
     while (true) {
       userController.userMenu();

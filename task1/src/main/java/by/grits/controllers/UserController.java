@@ -5,11 +5,11 @@ import by.grits.entities.enums.RoleType;
 import by.grits.entities.people.User;
 import by.grits.services.UserService;
 import by.grits.utils.Session;
+import by.grits.validation.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class UserController {
   private static final Logger LOGGER = LogManager.getLogger(UserController.class);
@@ -22,6 +22,7 @@ public class UserController {
   }
 
   public void signUp() throws DaoException {
+    Validator validator = new Validator();
     LOGGER.info("Your name: ");
     String name = scanner.nextLine();
 
@@ -34,21 +35,17 @@ public class UserController {
     LOGGER.info("Password: ");
     String inputPassword = scanner.nextLine();
 
-    String emailPattern =
-        "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-
     if (email.equals("admin@gmail.com")) {
       LOGGER.info("Sorry, this email is reserved, try again");
     } else if (userService.userExists(email)) {
       LOGGER.info("User with such email exists");
-    } else if (Pattern.matches("^\\d{12}$", phoneNumber) && Pattern.matches(emailPattern, email)) {
+    } else if (validator.validatePhoneInput(phoneNumber) && validator.validateEmailInput(email)) {
       User user = new User(name, phoneNumber, email, inputPassword, RoleType.USER);
       userService.addNewUser(user);
       LOGGER.info("Successfully signed up!!");
-    } else if (!Pattern.matches("^\\d{12}$", phoneNumber)) {
+    } else if (!validator.validatePhoneInput(phoneNumber)) {
       LOGGER.info("User cannot be registered, invalid phone format");
-    } else if (!Pattern.matches(emailPattern, email)) {
+    } else if (!validator.validateEmailInput(email)) {
       LOGGER.info("User cannot be registered, invalid email format");
     }
   }

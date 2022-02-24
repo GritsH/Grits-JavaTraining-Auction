@@ -2,7 +2,7 @@ package by.grits.services;
 
 import by.grits.dao.DaoException;
 import by.grits.dao.ItemDao;
-import by.grits.entities.item.Item;
+import by.grits.entities.items.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -134,6 +134,4 @@ class ItemServiceImplTest {
     verify(itemDao).delete(2);
     verifyNoMoreInteractions(itemDao);
   }
-
-
 }

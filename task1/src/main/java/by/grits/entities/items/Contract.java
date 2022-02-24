@@ -1,4 +1,4 @@
-package by.grits.entities.item;
+package by.grits.entities.items;
 
 public class Contract {
   private String signingDate;

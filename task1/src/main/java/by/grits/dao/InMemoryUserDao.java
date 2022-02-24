@@ -4,6 +4,7 @@ import by.grits.entities.enums.RoleType;
 import by.grits.entities.people.User;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,6 +42,7 @@ public class InMemoryUserDao implements UserDao {
   public void add(User user) throws DaoException {
     try {
       int id = idCounter.incrementAndGet();
+      user.setAddedAt(new Date(System.currentTimeMillis()));
       user.setId(id);
       usersById.put(id, user);
       usersByEmail.put(user.getEmailAddress(), user);

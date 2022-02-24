@@ -1,6 +1,6 @@
 package by.grits.dao;
 
-import by.grits.entities.item.Item;
+import by.grits.entities.items.Item;
 
 import java.util.Collection;
 

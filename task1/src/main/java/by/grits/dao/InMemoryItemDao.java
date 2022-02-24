@@ -1,6 +1,6 @@
 package by.grits.dao;
 
-import by.grits.entities.item.Item;
+import by.grits.entities.items.Item;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,6 +19,7 @@ public class InMemoryItemDao implements ItemDao {
   public void add(Item item) throws DaoException {
     try {
       int id = idCounter.incrementAndGet();
+      item.setAddedAt(new Date(System.currentTimeMillis()));
       item.setId(id);
       items.put(id, item);
     } catch (Exception e) {
@@ -48,9 +49,9 @@ public class InMemoryItemDao implements ItemDao {
   public Collection<Item> getUserItems(String ownersEmail) throws DaoException {
     try {
       Collection<Item> itemList = new HashSet<>();
-      for (Item i : items.values()) {
-        if (Objects.equals(i.getOwnersEmail(), ownersEmail)) {
-          itemList.add(i);
+      for (Item item : items.values()) {
+        if (Objects.equals(item.getOwnersEmail(), ownersEmail)) {
+          itemList.add(item);
         }
       }
       return itemList;
