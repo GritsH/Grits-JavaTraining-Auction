@@ -2,7 +2,10 @@ package by.grits.entities.items;
 
 import java.io.Serializable;
 
-/** This class represents the entity of contract. */
+/**
+ * This class represents the entity of contract. Contract forms when lot is closed and the owner is
+ * changed.
+ */
 public class Contract implements Serializable {
   private String signingDate;
   private Integer contractSubjectId;

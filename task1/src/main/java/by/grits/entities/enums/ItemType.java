@@ -9,6 +9,7 @@ public enum ItemType implements Serializable {
   MUSICAL_INSTRUMENT(3),
   PAINTING(4),
   OTHER(5);
+  private static final long serialVersionUID = 789L;
   int index;
 
   ItemType(int index) {

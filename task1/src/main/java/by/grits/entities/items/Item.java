@@ -5,9 +5,12 @@ import by.grits.entities.enums.ItemType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-
+/**
+ * This class represents entity of item. Consists of fields that describe main properties of probably
+ * any item.
+ */
 public class Item implements Comparable<Item>, Serializable {
-  private static final long serialVersionUID = 2l;
+  private static final long serialVersionUID = 123L;
 
   private Integer id;
   private String name;

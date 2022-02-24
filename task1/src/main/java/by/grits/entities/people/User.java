@@ -6,8 +6,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+/** This class represent the entity of user. Consists of fields that describe a user. */
 public class User implements Comparable<User>, Serializable {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 456L;
 
   private Integer id;
   private String name;
