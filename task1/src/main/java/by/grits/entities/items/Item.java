@@ -1,21 +1,55 @@
-package by.grits.entities.item;
+package by.grits.entities.items;
 
 import by.grits.entities.enums.ItemType;
 
+import java.util.Date;
 import java.util.Objects;
 
-public class Item {
+public class Item implements Comparable<Item> {
+  private Integer id;
   private String name;
   private String description;
   private String ownersEmail;
   private ItemType type;
-  private int id;
+  private Date addedAt;
 
   public Item(String name, String description, String ownerEmail, ItemType type) {
     this.name = name;
     this.description = description;
     this.ownersEmail = ownerEmail;
     this.type = type;
+  }
+
+  public Date getAddedAt() {
+    return addedAt;
+  }
+
+  public void setAddedAt(Date addedAt) {
+    this.addedAt = addedAt;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getOwnersEmail() {
+    return ownersEmail;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public ItemType getType() {
+    return type;
   }
 
   @Override
@@ -50,27 +84,12 @@ public class Item {
     return Objects.hash(name, description, ownersEmail, type);
   }
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getOwnersEmail() {
-    return ownersEmail;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public ItemType getType() {
-    return type;
+  @Override
+  public int compareTo(Item item) {
+    int result = this.addedAt.compareTo(item.addedAt);
+    if (result == 0) {
+      result = this.id.compareTo(item.id);
+    }
+    return result;
   }
 }

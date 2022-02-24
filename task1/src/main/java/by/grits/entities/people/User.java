@@ -2,15 +2,17 @@ package by.grits.entities.people;
 
 import by.grits.entities.enums.RoleType;
 
+import java.util.Date;
 import java.util.Objects;
 
-public class User {
-  private int id;
+public class User implements Comparable<User> {
+  private Integer id;
   private String name;
   private String phoneNumber;
   private String emailAddress;
   private String password;
   private RoleType role;
+  private Date addedAt;
 
   public User(
       String name, String phoneNumber, String emailAddress, String password, RoleType role) {
@@ -19,6 +21,14 @@ public class User {
     this.emailAddress = emailAddress;
     this.password = password;
     this.role = role;
+  }
+
+  public Date getAddedAt() {
+    return addedAt;
+  }
+
+  public void setAddedAt(Date addedAt) {
+    this.addedAt = addedAt;
   }
 
   public int getId() {
@@ -100,5 +110,14 @@ public class User {
         + ", role="
         + role
         + '}';
+  }
+
+  @Override
+  public int compareTo(User user) {
+    int result = this.addedAt.compareTo(user.addedAt);
+    if (result == 0) {
+      result = this.id.compareTo(user.id);
+    }
+    return result;
   }
 }
