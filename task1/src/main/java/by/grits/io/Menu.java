@@ -8,7 +8,9 @@ import by.grits.dao.DaoInitializer;
 import by.grits.dao.ItemDao;
 import by.grits.dao.UserDao;
 import by.grits.entities.enums.RoleType;
+import by.grits.entities.people.User;
 import by.grits.factory.DaoFactory;
+import by.grits.serialization.UserSerializer;
 import by.grits.services.ItemService;
 import by.grits.services.ItemServiceImpl;
 import by.grits.services.UserService;
@@ -30,17 +32,25 @@ public class Menu {
     daoInitializer.initializeUsers(userDao);
     daoInitializer.initializeItems(itemDao);
 
+    User foundUser = UserSerializer.getUser();
+    Session.setUser(foundUser);
+
     AdminController adminController = new AdminController(itemDao, userDao);
+
     while (true) {
-      userController.userMenu();
-      if (Session.getUser().getRole().equals(RoleType.ADMIN)) {
-        boolean runAdmin = true;
-        while (runAdmin) {
-          adminController.adminMenu();
-          runAdmin = false;
+      User currentUser = Session.getUser();
+      if (currentUser != null) {
+        if (RoleType.ADMIN.equals(currentUser.getRole())) {
+          boolean runAdmin = true;
+          while (runAdmin) {
+            adminController.adminMenu();
+            runAdmin = false;
+          }
+        } else {
+          itemController.itemMenu();
         }
       } else {
-        itemController.itemMenu();
+        userController.userMenu();
       }
     }
   }

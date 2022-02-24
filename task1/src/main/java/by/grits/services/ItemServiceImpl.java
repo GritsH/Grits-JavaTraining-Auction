@@ -4,10 +4,7 @@ import by.grits.dao.DaoException;
 import by.grits.dao.ItemDao;
 import by.grits.entities.items.Item;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ItemServiceImpl implements ItemService {
 
@@ -28,8 +25,10 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public Collection<Item> getAllItems(String ownersEmail) throws DaoException {
-    return itemDao.getUserItems(ownersEmail);
+  public List<Item> getAllItems(String ownersEmail) throws DaoException {
+    List<Item> userItems = itemDao.getUserItems(ownersEmail);
+    Collections.sort(userItems);
+    return userItems;
   }
 
   @Override

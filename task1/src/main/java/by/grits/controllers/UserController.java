@@ -9,8 +9,7 @@ import by.grits.validation.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
@@ -25,11 +24,10 @@ public class UserController {
 
   public UserController(UserService userService) {
     this.userService = userService;
-    scanner = new Scanner(System.in);
+    scanner = new Scanner(System.in, StandardCharsets.UTF_8);
   }
 
   public void signUp() throws DaoException {
-    Validator validator = new Validator();
     LOGGER.info("Your name: ");
     String name = scanner.nextLine();
 
@@ -42,18 +40,24 @@ public class UserController {
     LOGGER.info("Password: ");
     String inputPassword = scanner.nextLine();
 
-    if (email.equals("admin@gmail.com")) {
-      LOGGER.info("Sorry, this email is reserved, try again");
-    } else if (userService.userExists(email)) {
-      LOGGER.info("User with such email exists");
-    } else if (validator.validatePhoneInput(phoneNumber) && validator.validateEmailInput(email)) {
-      User user = new User(name, phoneNumber, email, inputPassword, RoleType.USER);
-      userService.addNewUser(user);
-      LOGGER.info("Successfully signed up!!");
-    } else if (!validator.validatePhoneInput(phoneNumber)) {
+    boolean phoneValid = Validator.validatePhoneInput(phoneNumber);
+    boolean emailValid = Validator.validateEmailInput(email);
+
+    if (!phoneValid) {
       LOGGER.info("User cannot be registered, invalid phone format");
-    } else if (!validator.validateEmailInput(email)) {
+    }
+    if (!emailValid) {
       LOGGER.info("User cannot be registered, invalid email format");
+    }
+
+    if (phoneValid && emailValid) {
+      if (userService.userExists(email)) {
+        LOGGER.info("User with such email exists");
+      } else {
+        User user = new User(name, phoneNumber, email, inputPassword, RoleType.USER);
+        userService.addNewUser(user);
+        LOGGER.info("Successfully signed up!!");
+      }
     }
   }
 
@@ -65,31 +69,15 @@ public class UserController {
     LOGGER.info("Enter password: ");
     String password = scanner.nextLine();
 
-    if (email.equals("admin@gmail.com")) {
-      try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("user.dat"))) {
-        oos.writeObject(userService.logIn(email, password));
-        oos.flush();
-      } catch (Exception e) {
-        LOGGER.info("Smth wrong with file");
-      }
-      if (Session.getUser() != null) {
-        LOGGER.info("Logged in as ADMIN");
-        return true;
-      }
-      return false;
-    } else if (userService.logIn(email, password) != null) {
-      try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("user.dat"))) {
-        oos.writeObject(userService.logIn(email, password));
-        oos.flush();
-      } catch (Exception e) {
-        LOGGER.info("Smth wrong with file");
-      }
-      LOGGER.info("You are in!!");
-      return true;
-    } else {
+    User foundUser = userService.logIn(email, password);
+    if (foundUser == null) {
       LOGGER.info("No such user");
+      return false;
     }
-    return false;
+
+    Session.setUser(foundUser);
+    LOGGER.info("Logged in as {}", foundUser.getName());
+    return true;
   }
 
   public void userCommands() {
@@ -114,6 +102,8 @@ public class UserController {
           break;
         case "3":
           System.exit(0);
+          // runMenu = false;
+          break;
         default:
           LOGGER.info("No such command");
           break;

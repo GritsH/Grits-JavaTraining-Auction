@@ -6,7 +6,8 @@ import by.grits.dao.UserDao;
 import by.grits.entities.items.Item;
 import by.grits.entities.people.User;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class AdminService {
 
@@ -18,16 +19,22 @@ public class AdminService {
     this.userDao = userDao;
   }
 
-  public Collection<User> getAllUsers() throws DaoException {
-    return userDao.getAll();
+  public List<User> getAllUsers() throws DaoException {
+    List<User> foundUsers = userDao.getAll();
+    Collections.sort(foundUsers);
+    return foundUsers;
   }
 
-  public Collection<Item> getAllItems() throws DaoException {
-    return itemDao.getAll();
+  public List<Item> getAllItems() throws DaoException {
+    List<Item> foundItems = itemDao.getAll();
+    Collections.sort(foundItems);
+    return foundItems;
   }
 
-  public Collection<Item> getUsersItems(String emailAddress) throws DaoException {
-    return itemDao.getUserItems(emailAddress);
+  public List<Item> getUsersItems(String emailAddress) throws DaoException {
+    List<Item> foundUserItems = itemDao.getUserItems(emailAddress);
+    Collections.sort(foundUserItems);
+    return foundUserItems;
   }
 
   public Item getSpecificItem(int id) {

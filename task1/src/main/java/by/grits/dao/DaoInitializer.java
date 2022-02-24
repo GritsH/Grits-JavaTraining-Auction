@@ -9,6 +9,7 @@ import by.grits.entities.people.User;
 public class DaoInitializer {
 
   public void initializeUsers(UserDao userDao) throws DaoException {
+    userDao.add(new User("admin", "0", "admin@gmail.com", "admin", RoleType.ADMIN));
     userDao.add(new User("name", "375447777777", "name@gmail.com", "namepassword", RoleType.USER));
     userDao.add(new User("NaMe", "375291111111", "name2@mail.com", "password", RoleType.USER));
     userDao.add(

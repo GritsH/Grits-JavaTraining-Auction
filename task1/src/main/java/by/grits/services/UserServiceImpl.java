@@ -3,6 +3,7 @@ package by.grits.services;
 import by.grits.dao.DaoException;
 import by.grits.dao.UserDao;
 import by.grits.entities.people.User;
+import by.grits.serialization.UserSerializer;
 
 public class UserServiceImpl implements UserService {
 
@@ -14,7 +15,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User logIn(String email, String password) throws DaoException {
-    return userDao.signIn(email, password);
+    User user = userDao.signIn(email, password);
+    UserSerializer.saveUser(user);
+    return user;
   }
 
   @Override
@@ -25,5 +28,10 @@ public class UserServiceImpl implements UserService {
   @Override
   public boolean userExists(String email) throws DaoException {
     return userDao.getByEmail(email) != null;
+  }
+
+  @Override
+  public void logOut() throws DaoException {
+    UserSerializer.removeUser();
   }
 }

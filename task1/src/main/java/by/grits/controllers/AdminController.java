@@ -6,13 +6,14 @@ import by.grits.dao.UserDao;
 import by.grits.entities.items.Item;
 import by.grits.entities.people.User;
 import by.grits.services.AdminService;
+import by.grits.services.UserService;
+import by.grits.services.UserServiceImpl;
+import by.grits.utils.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collection;
-import java.util.InputMismatchException;
-import java.util.Locale;
-import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 /**
  * This is class controller which provides console input and output for user whose role type is
@@ -22,42 +23,32 @@ public class AdminController {
   private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
   private final Scanner scanner;
   private final AdminService adminService;
+  private final UserService userService;
   boolean isEmpty = false;
 
   public AdminController(ItemDao itemDao, UserDao userDao) {
     adminService = new AdminService(itemDao, userDao);
-    scanner = new Scanner(System.in);
+    userService = new UserServiceImpl(userDao);
+    scanner = new Scanner(System.in, StandardCharsets.UTF_8);
   }
 
   public void showAllUsers() throws DaoException {
-    Collection<User> allUsers = adminService.getAllUsers();
-    allUsers.stream().sorted();
-    if (!allUsers.isEmpty() && allUsers.size() > 1) {
+    List<User> allUsers = adminService.getAllUsers();
+    if (!allUsers.isEmpty()) {
       LOGGER.info("id\t\tname\t\temail\t\tphone\t\t");
       for (User user : allUsers) {
-        if (user.getPhoneNumber().equals("0")) {
-          continue;
-        }
-        LOGGER.info(
-            user.getId()
-                + "\t"
-                + user.getName()
-                + "\t"
-                + user.getEmailAddress()
-                + "\t"
-                + user.getPhoneNumber()
-                + "\t");
+        int id = user.getId();
+        String name = user.getName();
+        String email = user.getEmailAddress();
+        String phoneNumber = user.getPhoneNumber();
+        LOGGER.info("{}\t{}\t{}\t{}", id, name, email, phoneNumber);
         isEmpty = false;
       }
-    } else {
-      LOGGER.info("No users yet");
-      isEmpty = true;
     }
   }
 
   public void showUserInfo(User user) throws DaoException {
-    Collection<Item> items = adminService.getUsersItems(user.getEmailAddress());
-    items.stream().sorted();
+    List<Item> items = adminService.getUsersItems(user.getEmailAddress());
     LOGGER.info("Name: " + user.getName());
     LOGGER.info("Email: " + user.getEmailAddress());
     LOGGER.info("Phone number: " + user.getPhoneNumber());
@@ -69,8 +60,7 @@ public class AdminController {
   }
 
   private void showAllItems() throws DaoException {
-    Collection<Item> allItems = adminService.getAllItems();
-    allItems.stream().sorted();
+    List<Item> allItems = adminService.getAllItems();
     if (!allItems.isEmpty()) {
       LOGGER.info("id\t\tname\t\towner email");
       for (Item item : allItems) {
@@ -164,6 +154,8 @@ public class AdminController {
           }
           break;
         case "3":
+          Session.setUser(null);
+          userService.logOut();
           runMenu = false;
           break;
         default:

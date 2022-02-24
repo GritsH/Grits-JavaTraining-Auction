@@ -3,6 +3,7 @@ package by.grits.entities.people;
 import by.grits.entities.enums.RoleType;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ public class User implements Comparable<User>, Serializable {
   private String emailAddress;
   private String password;
   private RoleType role;
-  private Date addedAt;
+  private LocalDate addedAt;
 
   public User(
       String name, String phoneNumber, String emailAddress, String password, RoleType role) {
@@ -27,12 +28,8 @@ public class User implements Comparable<User>, Serializable {
     this.role = role;
   }
 
-  public Date getAddedAt() {
-    return addedAt;
-  }
-
-  public void setAddedAt(Date addedAt) {
-    this.addedAt = addedAt;
+  public void setAddedAt(LocalDate addedAt) {
+    this.addedAt =addedAt;
   }
 
   public int getId() {

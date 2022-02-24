@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -57,8 +58,7 @@ public class ItemController {
   }
 
   public void showAllItems() throws DaoException {
-    Collection<Item> items = itemService.getAllItems(Session.getUser().getEmailAddress());
-    items.stream().sorted();
+    List<Item> items = itemService.getAllItems(Session.getUser().getEmailAddress());
     LOGGER.info("\tid" + "\t\t" + "name" + "\t\t" + "description");
     for (Item i : items) {
       LOGGER.info("\t" + i.getId() + "\t\t" + i.getName() + "\t\t" + i.getDescription());

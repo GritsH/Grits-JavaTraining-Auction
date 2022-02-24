@@ -3,11 +3,12 @@ package by.grits.entities.items;
 import by.grits.entities.enums.ItemType;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 /**
- * This class represents entity of item. Consists of fields that describe main properties of probably
- * any item.
+ * This class represents entity of item. Consists of fields that describe main properties of
+ * probably any item.
  */
 public class Item implements Comparable<Item>, Serializable {
   private static final long serialVersionUID = 123L;
@@ -17,7 +18,7 @@ public class Item implements Comparable<Item>, Serializable {
   private String description;
   private String ownersEmail;
   private ItemType type;
-  private Date addedAt;
+  private LocalDate addedAt;
 
   public Item(String name, String description, String ownerEmail, ItemType type) {
     this.name = name;
@@ -26,11 +27,7 @@ public class Item implements Comparable<Item>, Serializable {
     this.type = type;
   }
 
-  public Date getAddedAt() {
-    return addedAt;
-  }
-
-  public void setAddedAt(Date addedAt) {
+  public void setAddedAt(LocalDate addedAt) {
     this.addedAt = addedAt;
   }
 
