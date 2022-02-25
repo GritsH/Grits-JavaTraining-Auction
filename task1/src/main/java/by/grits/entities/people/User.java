@@ -48,32 +48,16 @@ public class User implements Comparable<User>, Serializable {
     return phoneNumber;
   }
 
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
-  }
-
   public String getEmailAddress() {
     return emailAddress;
-  }
-
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
   }
 
   public String getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
   public RoleType getRole() {
     return role;
-  }
-
-  public void setRole(RoleType role) {
-    this.role = role;
   }
 
   @Override

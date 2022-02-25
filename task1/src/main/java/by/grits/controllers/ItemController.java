@@ -28,7 +28,6 @@ public class ItemController {
   }
 
   public void addItem() throws DaoException {
-    // scanner.nextLine();
     LOGGER.info("Item name: ");
     String name = scanner.nextLine();
     LOGGER.info("Item description: ");

@@ -102,7 +102,6 @@ public class UserController {
           break;
         case "3":
           System.exit(0);
-          // runMenu = false;
           break;
         default:
           LOGGER.info("No such command");

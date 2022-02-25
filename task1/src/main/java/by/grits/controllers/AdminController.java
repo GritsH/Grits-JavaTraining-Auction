@@ -84,7 +84,6 @@ public class AdminController {
   private void specificItemMenu() {
     boolean run = true;
     while (run) {
-      // scanner.nextLine();
       LOGGER.info("Show info of the specific item? [y/n]");
       String input = scanner.nextLine().toLowerCase(Locale.ROOT);
       switch (input) {

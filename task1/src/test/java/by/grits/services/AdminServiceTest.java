@@ -12,9 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -36,7 +36,7 @@ class AdminServiceTest {
 
   @Test
   void getAllUsers() throws DaoException {
-    Set<User> daoResponse = new HashSet<>();
+    List<User> daoResponse = new ArrayList<>();
     daoResponse.add(mockedUser);
     when(userDao.getAll()).thenReturn(daoResponse);
 
@@ -50,7 +50,7 @@ class AdminServiceTest {
 
   @Test
   void getAllItems() throws DaoException {
-    Collection<Item> itemDaoRespond = new HashSet<>();
+    List<Item> itemDaoRespond = new ArrayList<>();
     itemDaoRespond.add(mockedItem);
 
     when(itemDao.getAll()).thenReturn(itemDaoRespond);
@@ -65,7 +65,7 @@ class AdminServiceTest {
 
   @Test
   void getUsersItems() throws DaoException {
-    Collection<Item> itemDaoRespond = new HashSet<>();
+    List<Item> itemDaoRespond = new ArrayList<>();
     itemDaoRespond.add(mockedItem);
 
     when(itemDao.getUserItems("email")).thenReturn(itemDaoRespond);
