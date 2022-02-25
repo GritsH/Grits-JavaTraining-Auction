@@ -17,6 +17,12 @@ import by.grits.services.UserService;
 import by.grits.services.UserServiceImpl;
 import by.grits.utils.Session;
 
+/**
+ * This class represents menu. First comes initializations of dao, services ad controllers. Then
+ * class Session reads user from .dat file and sets user as current if return value is not null.
+ * According menu shows depending on return value of Session.getUser and role type of the returned
+ * user.
+ */
 public class Menu {
   public void startMenu() throws DaoException {
     DaoFactory daoFactory = DaoFactory.getInstance();

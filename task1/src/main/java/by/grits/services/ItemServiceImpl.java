@@ -4,8 +4,12 @@ import by.grits.dao.DaoException;
 import by.grits.dao.ItemDao;
 import by.grits.entities.items.Item;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
+/** Class service which works with dao of items to get the information from it. */
 public class ItemServiceImpl implements ItemService {
 
   private final ItemDao itemDao;

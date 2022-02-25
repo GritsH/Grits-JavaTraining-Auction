@@ -5,6 +5,8 @@ import by.grits.dao.UserDao;
 import by.grits.entities.people.User;
 import by.grits.serialization.UserSerializer;
 
+/** Class service which works with dao of users to get the information from it.*/
+
 public class UserServiceImpl implements UserService {
 
   private final UserDao userDao;

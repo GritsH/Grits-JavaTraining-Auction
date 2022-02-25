@@ -9,6 +9,7 @@ import by.grits.entities.people.User;
 import java.util.Collections;
 import java.util.List;
 
+/** Class service which works with different dao to get necessary information from them */
 public class AdminService {
 
   private final ItemDao itemDao;

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 
+/** Util class which helps to serialize current user in .dat file */
 public class UserSerializer {
   private static final Logger LOGGER = LogManager.getLogger(UserSerializer.class);
 

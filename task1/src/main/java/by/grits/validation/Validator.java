@@ -2,6 +2,10 @@ package by.grits.validation;
 
 import java.util.regex.Pattern;
 
+/**
+ * Class util for input data validation. Specifically validates email and phone number input with
+ * regexps.
+ */
 public class Validator {
 
   public static boolean validateEmailInput(String email) {

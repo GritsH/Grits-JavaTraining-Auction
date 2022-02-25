@@ -5,6 +5,7 @@ import by.grits.dao.InMemoryUserDao;
 import by.grits.dao.ItemDao;
 import by.grits.dao.UserDao;
 
+/** This lass implements factory pattern. */
 public class DaoFactory {
   private static final DaoFactory instance = new DaoFactory();
 
