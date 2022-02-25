@@ -32,7 +32,7 @@ public class Menu {
 
     ItemDao itemDao = daoFactory.getInMemoryItemDaoImpl();
     ItemService itemService = new ItemServiceImpl(itemDao);
-    ItemController itemController = new ItemController(itemService);
+    ItemController itemController = new ItemController(itemService, userService);
 
     DaoInitializer daoInitializer = new DaoInitializer();
     daoInitializer.initializeUsers(userDao);

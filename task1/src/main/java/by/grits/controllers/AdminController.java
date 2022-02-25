@@ -115,7 +115,6 @@ public class AdminController {
           try {
             showUserInfo(adminService.getSpecificUser(scanner.nextInt()));
           } catch (InputMismatchException e) {
-            scanner.nextLine();
             LOGGER.info("Wrong input type, dummy");
           }
           break;

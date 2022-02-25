@@ -4,6 +4,7 @@ import by.grits.dao.DaoException;
 import by.grits.entities.enums.ItemType;
 import by.grits.entities.items.Item;
 import by.grits.services.ItemService;
+import by.grits.services.UserService;
 import by.grits.utils.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,9 +22,11 @@ public class ItemController {
   private static final Logger LOGGER = LogManager.getLogger(ItemController.class);
   private Scanner scanner;
   private ItemService itemService;
+  private UserService userService;
 
-  public ItemController(ItemService itemService) {
+  public ItemController(ItemService itemService, UserService userService) {
     this.itemService = itemService;
+    this.userService = userService;
     scanner = new Scanner(System.in);
   }
 
@@ -146,6 +149,8 @@ public class ItemController {
           showInfo();
           break;
         case "6":
+          Session.setUser(null);
+          userService.logOut();
           runMenu = false;
           break;
         default:

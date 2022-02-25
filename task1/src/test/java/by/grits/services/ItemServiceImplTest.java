@@ -11,8 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -47,7 +49,7 @@ class ItemServiceImplTest {
 
   @Test
   void getAllItems() throws DaoException {
-    Collection<Item> itemDaoRespond = new HashSet<>();
+    List<Item> itemDaoRespond = new ArrayList<>();
     itemDaoRespond.add(mockedItem);
 
     when(itemDao.getUserItems("email")).thenReturn(itemDaoRespond);
@@ -62,7 +64,7 @@ class ItemServiceImplTest {
 
   @Test
   void removeAll() throws DaoException {
-    Collection<Item> items = new HashSet<>();
+    List<Item> items = new ArrayList<>();
     items.add(mockedItem);
     when(itemDao.getAll()).thenReturn(items);
     when(mockedItem.getId()).thenReturn(1);
@@ -77,7 +79,7 @@ class ItemServiceImplTest {
 
   @Test
   void shouldNotDeleteItemsIfUserEmailNotFound() throws DaoException {
-    Collection<Item> items = new HashSet<>();
+    List<Item> items = new ArrayList<>();
     items.add(mockedItem);
 
     when(itemDao.getAll()).thenReturn(items);
@@ -91,7 +93,7 @@ class ItemServiceImplTest {
 
   @Test
   void shouldDeleteSeveralUserItems() throws DaoException {
-    Collection<Item> items = new HashSet<>();
+    List<Item> items = new ArrayList<>();
     Item mockedItem2 = mock(Item.class);
     items.add(mockedItem);
     items.add(mockedItem2);
@@ -113,7 +115,7 @@ class ItemServiceImplTest {
   @DisplayName("delete only user items")
   @Test
   void shouldDeleteItemsBelongToOneUser() throws DaoException {
-    Collection<Item> items = new HashSet<>();
+    List<Item> items = new ArrayList<>();
     Item mockedItem2 = mock(Item.class);
     Item mockedItem3 = mock(Item.class);
     items.add(mockedItem);
