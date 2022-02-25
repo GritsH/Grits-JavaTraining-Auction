@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<FindBugsFilter>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2,DM_EXIT"/>
+    </Match>
+</FindBugsFilter>
