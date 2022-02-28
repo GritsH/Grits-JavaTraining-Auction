@@ -13,7 +13,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * This is class controller which provides console input and output for user whose role type is
@@ -32,6 +35,12 @@ public class AdminController {
     scanner = new Scanner(System.in, StandardCharsets.UTF_8);
   }
 
+  /**
+   * Method for displaying all users and their basic information. Only ADMIN can access this
+   * information.
+   *
+   * @throws DaoException due to calling a service method with such exception
+   */
   public void showAllUsers() throws DaoException {
     List<User> allUsers = adminService.getAllUsers();
     if (!allUsers.isEmpty()) {
@@ -47,6 +56,12 @@ public class AdminController {
     }
   }
 
+  /**
+   * This method displays all information of the specific user.
+   *
+   * @param user - user whose information admin wants to display.
+   * @throws DaoException due to calling a service method with such exception
+   */
   public void showUserInfo(User user) throws DaoException {
     List<Item> items = adminService.getUsersItems(user.getEmailAddress());
     LOGGER.info("Name: " + user.getName());
@@ -59,6 +74,11 @@ public class AdminController {
     }
   }
 
+  /**
+   * Method for displaying all items and their basic information.
+   *
+   * @throws DaoException due to calling a service method with such exception
+   */
   private void showAllItems() throws DaoException {
     List<Item> allItems = adminService.getAllItems();
     if (!allItems.isEmpty()) {
@@ -73,6 +93,11 @@ public class AdminController {
     }
   }
 
+  /**
+   * Method for displaying all information if the specific item.
+   *
+   * @param item - desired item which information is wanted.
+   */
   private void showItemInfo(Item item) {
     LOGGER.info("\tname: " + item.getName());
     LOGGER.info("\tdescription: " + item.getDescription());
@@ -81,6 +106,10 @@ public class AdminController {
     scanner.nextLine();
   }
 
+  /**
+   * Method to confirm if admin wants information of any specific item. Admin has to specify desired
+   * item's id in console input.
+   */
   private void specificItemMenu() {
     boolean run = true;
     while (run) {
@@ -105,7 +134,13 @@ public class AdminController {
     }
   }
 
-  private void specificUser() throws DaoException {
+  /**
+   * Method to confirm if admin wants information of any specific user. Admin has to specify desired
+   * user's id in console input.
+   *
+   * @throws DaoException due to calling a service method with such exception
+   */
+  private void specificUserMenu() throws DaoException {
     boolean run = true;
     while (run) {
       LOGGER.info("Show info of the specific user? [y/n]");
@@ -128,12 +163,18 @@ public class AdminController {
     }
   }
 
+  /** This method displays allowed operations for admin. */
   private void adminCommands() {
     LOGGER.info("1. Show all users");
     LOGGER.info("2. Show all items");
     LOGGER.info("3. Exit");
   }
 
+  /**
+   * This method displays admin menu and reads console input.
+   *
+   * @throws DaoException due to calling methods with such exception
+   */
   public void adminMenu() throws DaoException {
     boolean runMenu = true;
     while (runMenu) {
@@ -142,7 +183,7 @@ public class AdminController {
         case "1":
           showAllUsers();
           if (!isEmpty) {
-            specificUser();
+            specificUserMenu();
           }
           break;
         case "2":

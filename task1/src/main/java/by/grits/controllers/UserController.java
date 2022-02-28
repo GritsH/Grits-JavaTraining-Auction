@@ -27,6 +27,14 @@ public class UserController {
     scanner = new Scanner(System.in, StandardCharsets.UTF_8);
   }
 
+  /**
+   * This method is for registration of the new user. Requires console input from user. If input
+   * information do not pass validation, method will display correspond message If user with
+   * specific email already exists, method will display correspond message. If user with such email
+   * do not exist, method will display correspond message.
+   *
+   * @throws DaoException due to calling a service method with such exception.
+   */
   public void signUp() throws DaoException {
     LOGGER.info("Your name: ");
     String name = scanner.nextLine();
@@ -61,6 +69,11 @@ public class UserController {
     }
   }
 
+  /**
+   * Method for logging an existing user. Requires user's console input.
+   *
+   * @throws DaoException due to calling a service method with such exception.
+   */
   public boolean logIn() throws DaoException {
 
     LOGGER.info("Enter email: ");
@@ -80,12 +93,18 @@ public class UserController {
     return true;
   }
 
+  /** This method displays menu for unregistered user */
   public void userCommands() {
     LOGGER.info("1. Sign up");
     LOGGER.info("2. Log in");
     LOGGER.info("3. Exit");
   }
 
+  /**
+   * This method reads user's console input and calls a corresponding method
+   *
+   * @throws DaoException due to calling methods with such exception.
+   */
   public void userMenu() throws DaoException {
     boolean runMenu = true;
     while (runMenu) {

@@ -9,6 +9,7 @@ import by.grits.utils.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -27,9 +28,15 @@ public class ItemController {
   public ItemController(ItemService itemService, UserService userService) {
     this.itemService = itemService;
     this.userService = userService;
-    scanner = new Scanner(System.in);
+    scanner = new Scanner(System.in, StandardCharsets.UTF_8);
   }
 
+  /**
+   * This method is for adding new item. Basically user enters basic item's information and new item
+   * is added to imitated database.
+   *
+   * @throws DaoException due to calling a service method with such exception.
+   */
   public void addItem() throws DaoException {
     LOGGER.info("Item name: ");
     String name = scanner.nextLine();
@@ -59,6 +66,11 @@ public class ItemController {
     }
   }
 
+  /**
+   * This method displays items information
+   *
+   * @throws DaoException due to calling a service method with such exception.
+   */
   public void showAllItems() throws DaoException {
     List<Item> items = itemService.getAllItems(Session.getUser().getEmailAddress());
     LOGGER.info("\tid" + "\t\t" + "name" + "\t\t" + "description");
@@ -67,6 +79,12 @@ public class ItemController {
     }
   }
 
+  /**
+   * This method is for removing item. User has to enter item's id, then item will be removed from
+   * imitated database.
+   *
+   * @throws DaoException due to calling a service method with such exception.
+   */
   public void removeItem() throws DaoException {
     showAllItems();
     LOGGER.info("enter id: ");
@@ -75,11 +93,21 @@ public class ItemController {
     scanner.nextLine();
   }
 
+  /**
+   * This method is for removing all user's items from database
+   *
+   * @throws DaoException due to calling a service method with such exception.
+   */
   public void removeAllItems() throws DaoException {
     itemService.removeAll(Session.getUser().getEmailAddress());
     LOGGER.info("All items removed");
   }
 
+  /**
+   * This method displays information of the specific user's item. Requires item's id
+   *
+   * @throws DaoException due to calling a service method with such exception.
+   */
   public void showInfo() throws DaoException {
     Collection<Item> items = itemService.getAllItems(Session.getUser().getEmailAddress());
     for (Item i : items) {
@@ -119,6 +147,7 @@ public class ItemController {
     }
   }
 
+  /** Basic method for displaying menu of allowed operations for user. */
   public void itemCommands() {
     LOGGER.info("1. Add Item");
     LOGGER.info("2. Show items");
@@ -128,6 +157,11 @@ public class ItemController {
     LOGGER.info("6. Exit");
   }
 
+  /**
+   * Method displays menu commands and reading user's input.
+   *
+   * @throws DaoException due to calling methods with such exception.
+   */
   public void itemMenu() throws DaoException {
     boolean runMenu = true;
     while (runMenu) {
