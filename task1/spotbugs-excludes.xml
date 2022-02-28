@@ -2,6 +2,6 @@
 
 <FindBugsFilter>
     <Match>
-        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2,DM_EXIT"/>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2,DM_EXIT,EI_EXPOSE_STATIC_REP2,RV_RETURN_VALUE_IGNORED_BAD_PRACTICE,MS_EXPOSE_REP"/>
     </Match>
 </FindBugsFilter>
