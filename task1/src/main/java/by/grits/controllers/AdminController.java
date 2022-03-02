@@ -59,7 +59,7 @@ public class AdminController {
   /**
    * This method displays all information of the specific user.
    *
-   * @param user - user whose information admin wants to display.
+   * @param user user whose information admin wants to display.
    * @throws DaoException due to calling a service method with such exception
    */
   public void showUserInfo(User user) throws DaoException {
@@ -96,7 +96,7 @@ public class AdminController {
   /**
    * Method for displaying all information if the specific item.
    *
-   * @param item - desired item which information is wanted.
+   * @param item desired item which information is wanted.
    */
   private void showItemInfo(Item item) {
     LOGGER.info("\tname: " + item.getName());
