@@ -5,7 +5,7 @@ import by.grits.entities.people.User;
 import by.grits.services.UserService;
 import by.grits.utils.Session;
 import by.grits.validation.Validator;
-import by.grits.dao.DaoException;
+import by.grits.dao.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,33 +36,23 @@ public class UserController {
    * @throws DaoException due to calling a service method with such exception.
    */
   public void signUp() throws DaoException {
-    LOGGER.info("Your name: ");
-    String name = scanner.nextLine();
-
-    LOGGER.info("Your phone number: ");
-    String phoneNumber = scanner.nextLine();
-
     LOGGER.info("Email: ");
     String email = scanner.nextLine();
 
     LOGGER.info("Password: ");
     String inputPassword = scanner.nextLine();
-
-    boolean phoneValid = Validator.validatePhoneInput(phoneNumber);
+    ;
     boolean emailValid = Validator.validateEmailInput(email);
 
-    if (!phoneValid) {
-      LOGGER.info("User cannot be registered, invalid phone format");
-    }
     if (!emailValid) {
       LOGGER.info("User cannot be registered, invalid email format");
     }
 
-    if (phoneValid && emailValid) {
+    if (emailValid) {
       if (userService.userExists(email)) {
         LOGGER.info("User with such email exists");
       } else {
-        User user = new User(name, phoneNumber, email, inputPassword, RoleType.USER);
+        User user = new User(email, inputPassword, RoleType.USER);
         userService.addNewUser(user);
         LOGGER.info("Successfully signed up!!");
       }
@@ -89,7 +79,7 @@ public class UserController {
     }
 
     Session.setUser(foundUser);
-    LOGGER.info("Logged in as {}", foundUser.getName());
+    LOGGER.info("Logged in as {}", foundUser.getEmailAddress());
     return true;
   }
 

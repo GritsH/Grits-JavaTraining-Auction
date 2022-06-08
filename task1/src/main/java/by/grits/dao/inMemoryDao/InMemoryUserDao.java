@@ -1,6 +1,7 @@
 package by.grits.dao.inMemoryDao;
 
-import by.grits.dao.DaoException;
+import by.grits.dao.UserDao;
+import by.grits.dao.exception.DaoException;
 import by.grits.entities.people.User;
 
 import java.time.LocalDate;

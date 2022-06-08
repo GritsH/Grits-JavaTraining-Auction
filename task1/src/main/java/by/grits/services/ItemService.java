@@ -1,7 +1,7 @@
 package by.grits.services;
 
 import by.grits.entities.items.Item;
-import by.grits.dao.DaoException;
+import by.grits.dao.exception.DaoException;
 
 import java.util.List;
 

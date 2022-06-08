@@ -1,6 +1,6 @@
-package by.grits.dao.inMemoryDao;
+package by.grits.dao;
 
-import by.grits.dao.DaoException;
+import by.grits.dao.exception.DaoException;
 import by.grits.entities.items.Item;
 
 import java.util.List;

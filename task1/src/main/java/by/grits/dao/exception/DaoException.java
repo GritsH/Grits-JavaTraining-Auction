@@ -1,4 +1,4 @@
-package by.grits.dao;
+package by.grits.dao.exception;
 
 public class DaoException extends Exception {
 

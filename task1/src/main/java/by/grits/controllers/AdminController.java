@@ -1,14 +1,14 @@
 package by.grits.controllers;
 
-import by.grits.dao.inMemoryDao.ItemDao;
-import by.grits.dao.inMemoryDao.UserDao;
+import by.grits.dao.ItemDao;
+import by.grits.dao.UserDao;
 import by.grits.entities.items.Item;
 import by.grits.entities.people.User;
 import by.grits.services.AdminService;
 import by.grits.services.UserService;
 import by.grits.services.UserServiceImpl;
 import by.grits.utils.Session;
-import by.grits.dao.DaoException;
+import by.grits.dao.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,10 +47,8 @@ public class AdminController {
       LOGGER.info("id\t\tname\t\temail\t\tphone\t\t");
       for (User user : allUsers) {
         int id = user.getId();
-        String name = user.getName();
         String email = user.getEmailAddress();
-        String phoneNumber = user.getPhoneNumber();
-        LOGGER.info("{}\t{}\t{}\t{}", id, name, email, phoneNumber);
+        LOGGER.info("{}\t{}\t", id, email);
         isEmpty = false;
       }
     }
@@ -64,9 +62,7 @@ public class AdminController {
    */
   public void showUserInfo(User user) throws DaoException {
     List<Item> items = adminService.getUsersItems(user.getEmailAddress());
-    LOGGER.info("Name: " + user.getName());
     LOGGER.info("Email: " + user.getEmailAddress());
-    LOGGER.info("Phone number: " + user.getPhoneNumber());
     LOGGER.info("Items: ");
     for (Item item : items) {
       showItemInfo(item);

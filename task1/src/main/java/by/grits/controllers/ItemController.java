@@ -3,7 +3,7 @@ package by.grits.controllers;
 import by.grits.entities.items.Item;
 import by.grits.services.ItemService;
 import by.grits.services.UserService;
-import by.grits.dao.DaoException;
+import by.grits.dao.exception.DaoException;
 import by.grits.entities.enums.ItemType;
 import by.grits.utils.Session;
 import org.apache.logging.log4j.LogManager;

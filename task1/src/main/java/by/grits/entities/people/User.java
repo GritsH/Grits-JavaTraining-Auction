@@ -11,24 +11,19 @@ public class User implements Comparable<User>, Serializable {
   private static final long serialVersionUID = 456L;
 
   private Integer id;
-  private String name;
-  private String phoneNumber;
   private String emailAddress;
   private String password;
   private RoleType role;
   private LocalDate addedAt;
 
-  public User(
-      String name, String phoneNumber, String emailAddress, String password, RoleType role) {
-    this.name = name;
-    this.phoneNumber = phoneNumber;
+  public User(String emailAddress, String password, RoleType role) {
     this.emailAddress = emailAddress;
     this.password = password;
     this.role = role;
   }
 
   public void setAddedAt(LocalDate addedAt) {
-    this.addedAt =addedAt;
+    this.addedAt = addedAt;
   }
 
   public int getId() {
@@ -37,14 +32,6 @@ public class User implements Comparable<User>, Serializable {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getPhoneNumber() {
-    return phoneNumber;
   }
 
   public String getEmailAddress() {
@@ -64,28 +51,20 @@ public class User implements Comparable<User>, Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     User user = (User) o;
-    return Objects.equals(name, user.name)
-        && Objects.equals(phoneNumber, user.phoneNumber)
-        && Objects.equals(emailAddress, user.emailAddress)
+    return Objects.equals(emailAddress, user.emailAddress)
         && Objects.equals(password, user.password)
         && role == user.role;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, phoneNumber, emailAddress, password, role);
+    return Objects.hash(emailAddress, password, role);
   }
 
   @Override
   public String toString() {
     return "User{"
-        + "name='"
-        + name
-        + '\''
-        + ", phoneNumber='"
-        + phoneNumber
-        + '\''
-        + ", emailAddress='"
+        + "emailAddress='"
         + emailAddress
         + '\''
         + ", password='"

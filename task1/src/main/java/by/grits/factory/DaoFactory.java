@@ -1,9 +1,9 @@
 package by.grits.factory;
 
 import by.grits.dao.inMemoryDao.InMemoryUserDao;
-import by.grits.dao.inMemoryDao.UserDao;
+import by.grits.dao.UserDao;
 import by.grits.dao.inMemoryDao.InMemoryItemDao;
-import by.grits.dao.inMemoryDao.ItemDao;
+import by.grits.dao.ItemDao;
 
 /** This class implements factory pattern. */
 public class DaoFactory {

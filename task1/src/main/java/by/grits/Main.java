@@ -1,6 +1,6 @@
 package by.grits;
 
-import by.grits.dao.DaoException;
+import by.grits.dao.exception.DaoException;
 import by.grits.io.Menu;
 
 public class Main {
