@@ -4,7 +4,6 @@ import by.grits.entities.enums.RoleType;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 /** This class represent the entity of user. Consists of fields that describe a user. */

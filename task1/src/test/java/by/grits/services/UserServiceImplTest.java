@@ -1,7 +1,7 @@
 package by.grits.services;
 
 import by.grits.dao.DaoException;
-import by.grits.dao.UserDao;
+import by.grits.dao.inMemoryDao.UserDao;
 import by.grits.entities.people.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 package by.grits.services;
 
 import by.grits.dao.DaoException;
-import by.grits.dao.ItemDao;
+import by.grits.dao.inMemoryDao.ItemDao;
 import by.grits.entities.items.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.mockito.Mockito.*;

@@ -4,7 +4,6 @@ import by.grits.entities.enums.ItemType;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 /**
  * This class represents entity of item. Consists of fields that describe main properties of

@@ -1,5 +1,6 @@
-package by.grits.dao;
+package by.grits.dao.inMemoryDao;
 
+import by.grits.dao.DaoException;
 import by.grits.entities.enums.ItemType;
 import by.grits.entities.enums.RoleType;
 import by.grits.entities.items.Item;

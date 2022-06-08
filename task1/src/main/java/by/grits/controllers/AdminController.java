@@ -1,14 +1,14 @@
 package by.grits.controllers;
 
-import by.grits.dao.DaoException;
-import by.grits.dao.ItemDao;
-import by.grits.dao.UserDao;
+import by.grits.dao.inMemoryDao.ItemDao;
+import by.grits.dao.inMemoryDao.UserDao;
 import by.grits.entities.items.Item;
 import by.grits.entities.people.User;
 import by.grits.services.AdminService;
 import by.grits.services.UserService;
 import by.grits.services.UserServiceImpl;
 import by.grits.utils.Session;
+import by.grits.dao.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

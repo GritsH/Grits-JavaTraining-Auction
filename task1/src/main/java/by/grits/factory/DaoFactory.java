@@ -1,11 +1,11 @@
 package by.grits.factory;
 
-import by.grits.dao.InMemoryItemDao;
-import by.grits.dao.InMemoryUserDao;
-import by.grits.dao.ItemDao;
-import by.grits.dao.UserDao;
+import by.grits.dao.inMemoryDao.InMemoryUserDao;
+import by.grits.dao.inMemoryDao.UserDao;
+import by.grits.dao.inMemoryDao.InMemoryItemDao;
+import by.grits.dao.inMemoryDao.ItemDao;
 
-/** This lass implements factory pattern. */
+/** This class implements factory pattern. */
 public class DaoFactory {
   private static final DaoFactory instance = new DaoFactory();
 

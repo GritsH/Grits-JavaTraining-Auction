@@ -1,11 +1,11 @@
 package by.grits.controllers;
 
-import by.grits.dao.DaoException;
 import by.grits.entities.enums.RoleType;
 import by.grits.entities.people.User;
 import by.grits.services.UserService;
 import by.grits.utils.Session;
 import by.grits.validation.Validator;
+import by.grits.dao.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
